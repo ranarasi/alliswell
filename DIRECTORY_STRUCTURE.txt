@@ -1,0 +1,112 @@
+AllIsWell Project Structure
+═══════════════════════════════════════════════════════════════════════════════
+
+claude-alliswell/
+│
+├── 📄 Documentation (Root Level)
+│   ├── CLAUDE.md                    # AI assistant guidance
+│   ├── README.md                     # Complete setup guide
+│   ├── QUICKSTART.md                 # 5-minute setup guide
+│   ├── MVP_SUMMARY.md                # Feature summary & deliverables
+│   ├── DEPLOYMENT.md                 # Production deployment guide
+│   ├── PROJECT_COMPLETION.txt        # Project completion summary
+│   ├── DIRECTORY_STRUCTURE.txt       # This file
+│   ├── AllIsWell_ProjectReq.docx     # Original requirements document
+│   └── .gitignore                    # Git ignore rules
+│
+├── 🖥️  Backend (Node.js + Express + TypeScript)
+│   ├── src/
+│   │   ├── controllers/              # Request handlers
+│   │   │   ├── authController.ts     # Login, user management
+│   │   │   ├── projectController.ts  # Project CRUD operations
+│   │   │   └── statusController.ts   # Status update operations
+│   │   │
+│   │   ├── database/                 # Database layer
+│   │   │   ├── db.ts                 # PostgreSQL connection pool
+│   │   │   ├── schema.sql            # Database schema definition
+│   │   │   ├── migrate.ts            # Migration runner
+│   │   │   └── seedUsers.ts          # Seed default users
+│   │   │
+│   │   ├── middleware/               # Express middleware
+│   │   │   └── auth.ts               # JWT authentication & authorization
+│   │   │
+│   │   ├── routes/                   # API route definitions
+│   │   │   ├── authRoutes.ts         # /api/auth/*
+│   │   │   ├── projectRoutes.ts      # /api/projects/*
+│   │   │   └── statusRoutes.ts       # /api/status/*
+│   │   │
+│   │   ├── types/                    # TypeScript type definitions
+│   │   │   └── index.ts              # Shared types
+│   │   │
+│   │   ├── utils/                    # Utility functions
+│   │   │   ├── jwt.ts                # JWT token generation & verification
+│   │   │   └── hashPassword.ts       # Password hashing utility
+│   │   │
+│   │   └── index.ts                  # Main Express server
+│   │
+│   ├── package.json                  # Backend dependencies
+│   ├── tsconfig.json                 # TypeScript configuration
+│   ├── .env.example                  # Environment variables template
+│   └── .gitignore                    # Backend git ignore
+│
+├── 🎨 Frontend (Next.js 14 + TypeScript + Tailwind CSS)
+│   ├── app/                          # Next.js App Router
+│   │   ├── admin/
+│   │   │   └── projects/
+│   │   │       └── page.tsx          # Admin project management
+│   │   │
+│   │   ├── dashboard/
+│   │   │   └── page.tsx              # Practice Head dashboard
+│   │   │
+│   │   ├── login/
+│   │   │   └── page.tsx              # Login page
+│   │   │
+│   │   ├── submit/
+│   │   │   └── page.tsx              # PDM status submission
+│   │   │
+│   │   ├── layout.tsx                # Root layout component
+│   │   ├── page.tsx                  # Landing page
+│   │   └── globals.css               # Global styles
+│   │
+│   ├── components/                   # Reusable React components
+│   │   └── Navbar.tsx                # Navigation bar
+│   │
+│   ├── lib/                          # Frontend utilities
+│   │   ├── api.ts                    # Axios API client
+│   │   └── auth.ts                   # Auth helper functions
+│   │
+│   ├── types/                        # TypeScript types
+│   │   └── index.ts                  # Shared type definitions
+│   │
+│   ├── package.json                  # Frontend dependencies
+│   ├── tsconfig.json                 # TypeScript config
+│   ├── tailwind.config.ts            # Tailwind CSS config
+│   ├── postcss.config.mjs            # PostCSS config
+│   ├── next.config.mjs               # Next.js config
+│   ├── .env.example                  # Environment template
+│   └── .gitignore                    # Frontend git ignore
+│
+└── 📊 Database (PostgreSQL)
+    └── Schema includes:
+        ├── users                     # User accounts (Admin, PDM, Practice Head)
+        ├── projects                  # Project master data
+        ├── weekly_status             # Status submissions
+        └── comments                  # Future feature
+
+═══════════════════════════════════════════════════════════════════════════════
+
+File Count Summary:
+  Total Project Files: 42
+  Backend Files: 17
+  Frontend Files: 16
+  Documentation: 5
+  Configuration: 4
+
+Key Technologies:
+  Backend:   Node.js, Express, TypeScript, PostgreSQL, JWT, bcrypt
+  Frontend:  Next.js 14, React 18, TypeScript, Tailwind CSS, Axios
+  Database:  PostgreSQL 14+
+  Auth:      JWT with httpOnly cookies
+  Styling:   Tailwind CSS with custom theme
+
+═══════════════════════════════════════════════════════════════════════════════
