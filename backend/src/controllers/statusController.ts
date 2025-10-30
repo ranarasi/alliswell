@@ -14,7 +14,7 @@ export const getStatuses = async (req: AuthRequest, res: Response) => {
     let params: any[] = [];
     let conditions: string[] = [];
 
-    // PDMs can only see their own submissions
+    // Delivery Directors can only see their own submissions
     if (user.role === 'PDM') {
       conditions.push(`ws.submitted_by = $${params.length + 1}`);
       params.push(user.id);
@@ -70,7 +70,7 @@ export const getLatestStatuses = async (req: AuthRequest, res: Response) => {
     `;
     let params: any[] = [];
 
-    // PDMs see only their assigned projects
+    // Delivery Directors see only their assigned projects
     if (user.role === 'PDM') {
       query += ' WHERE p.assigned_pdm = $1';
       params.push(user.id);
@@ -82,6 +82,32 @@ export const getLatestStatuses = async (req: AuthRequest, res: Response) => {
     res.json(result.rows);
   } catch (error) {
     console.error('Get latest statuses error:', error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+};
+
+export const getLatestStatusByProject = async (req: AuthRequest, res: Response) => {
+  try {
+    const { projectId } = req.params;
+
+    const query = `
+      SELECT ws.*, u.name as submitted_by_name
+      FROM weekly_status ws
+      LEFT JOIN users u ON ws.submitted_by = u.id
+      WHERE ws.project_id = $1 AND ws.is_draft = FALSE
+      ORDER BY ws.week_ending_date DESC
+      LIMIT 1
+    `;
+
+    const result = await pool.query(query, [projectId]);
+
+    if (result.rows.length === 0) {
+      return res.status(404).json({ message: 'No status found for this project' });
+    }
+
+    res.json(result.rows[0]);
+  } catch (error) {
+    console.error('Get latest status by project error:', error);
     res.status(500).json({ message: 'Internal server error' });
   }
 };
@@ -100,7 +126,7 @@ export const getStatus = async (req: AuthRequest, res: Response) => {
     `;
     let params: any[] = [id];
 
-    // PDMs can only see their own submissions
+    // Delivery Directors can only see their own submissions
     if (user.role === 'PDM') {
       query += ' AND ws.submitted_by = $2';
       params.push(user.id);
@@ -138,7 +164,7 @@ export const createStatus = async (req: AuthRequest, res: Response) => {
       return res.status(400).json({ message: 'Missing required fields' });
     }
 
-    // Verify PDM is assigned to this project
+    // Verify Delivery Director is assigned to this project
     if (user.role === 'PDM') {
       const projectCheck = await pool.query(
         'SELECT id FROM projects WHERE id = $1 AND assigned_pdm = $2',
@@ -201,7 +227,7 @@ export const updateStatus = async (req: AuthRequest, res: Response) => {
       isDraft,
     } = req.body;
 
-    // Check ownership for PDMs
+    // Check ownership for Delivery Directors
     if (user.role === 'PDM') {
       const ownerCheck = await pool.query(
         'SELECT id FROM weekly_status WHERE id = $1 AND submitted_by = $2',
@@ -244,7 +270,7 @@ export const deleteStatus = async (req: AuthRequest, res: Response) => {
     const { id } = req.params;
     const user = req.user!;
 
-    // Check ownership for PDMs
+    // Check ownership for Delivery Directors
     if (user.role === 'PDM') {
       const ownerCheck = await pool.query(
         'SELECT id FROM weekly_status WHERE id = $1 AND submitted_by = $2',
@@ -285,7 +311,7 @@ export const getPreviousStatus = async (req: AuthRequest, res: Response) => {
     `;
     let params: any[] = [projectId];
 
-    // PDMs can only get their own previous submissions
+    // Delivery Directors can only get their own previous submissions
     if (user.role === 'PDM') {
       query += ' AND ws.submitted_by = $2';
       params.push(user.id);

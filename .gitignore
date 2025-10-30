@@ -48,3 +48,8 @@ Thumbs.db
 *.pem
 *.tsbuildinfo
 next-env.d.ts
+
+# Application management files
+*.pid
+logs/
+*.log

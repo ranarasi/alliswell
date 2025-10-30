@@ -2,6 +2,7 @@ import express from 'express';
 import {
   getStatuses,
   getLatestStatuses,
+  getLatestStatusByProject,
   getStatus,
   createStatus,
   updateStatus,
@@ -14,6 +15,7 @@ const router = express.Router();
 
 router.get('/', authenticate, getStatuses);
 router.get('/latest', authenticate, getLatestStatuses);
+router.get('/latest/:projectId', authenticate, getLatestStatusByProject);
 router.get('/previous/:projectId', authenticate, getPreviousStatus);
 router.get('/:id', authenticate, getStatus);
 router.post('/', authenticate, createStatus);

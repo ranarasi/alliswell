@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { api } from '@/lib/api';
 import { WeeklyStatus, Project } from '@/types';
 import Navbar from '@/components/Navbar';
@@ -9,22 +10,34 @@ interface StatusWithProject extends WeeklyStatus {
   project_name: string;
   client: string;
   submitted_by_name: string;
+  project_id: string;
 }
 
 export default function DashboardPage() {
+  const router = useRouter();
   const [statuses, setStatuses] = useState<StatusWithProject[]>([]);
   const [loading, setLoading] = useState(true);
   const [filterStatus, setFilterStatus] = useState('');
   const [searchQuery, setSearchQuery] = useState('');
+  const [selectedWeekEnding, setSelectedWeekEnding] = useState<string>('');
+  const [expandedStatusId, setExpandedStatusId] = useState<string | null>(null);
+  const [currentDate, setCurrentDate] = useState<string>('');
 
   useEffect(() => {
+    setCurrentDate(new Date().toLocaleDateString());
     fetchLatestStatuses();
   }, []);
 
   const fetchLatestStatuses = async () => {
     try {
       const response = await api.get<StatusWithProject[]>('/status/latest');
-      setStatuses(response.data);
+      // Sort by latest status update date (most recent first)
+      const sortedStatuses = response.data.sort((a, b) => {
+        const dateA = a.week_ending_date ? new Date(a.week_ending_date).getTime() : 0;
+        const dateB = b.week_ending_date ? new Date(b.week_ending_date).getTime() : 0;
+        return dateB - dateA;
+      });
+      setStatuses(sortedStatuses);
     } catch (error) {
       console.error('Failed to fetch statuses:', error);
     } finally {
@@ -58,6 +71,15 @@ export default function DashboardPage() {
     }
   };
 
+  // Get unique week ending dates
+  const getUniqueWeekEndingDates = () => {
+    const dates = statuses
+      .filter((s) => s.week_ending_date)
+      .map((s) => s.week_ending_date);
+    const uniqueDates = Array.from(new Set(dates));
+    return uniqueDates.sort((a, b) => new Date(b).getTime() - new Date(a).getTime());
+  };
+
   const filteredStatuses = statuses.filter((status) => {
     const matchesStatus = !filterStatus || status.overall_status === filterStatus;
     const matchesSearch =
@@ -65,7 +87,8 @@ export default function DashboardPage() {
       status.project_name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
       status.client?.toLowerCase().includes(searchQuery.toLowerCase()) ||
       status.all_is_well?.toLowerCase().includes(searchQuery.toLowerCase());
-    return matchesStatus && matchesSearch;
+    const matchesWeek = !selectedWeekEnding || status.week_ending_date === selectedWeekEnding;
+    return matchesStatus && matchesSearch && matchesWeek;
   });
 
   const summary = {
@@ -83,34 +106,32 @@ export default function DashboardPage() {
         <div className="mb-6">
           <h1 className="text-3xl font-bold mb-2">Project Dashboard</h1>
           <p className="text-secondary">
-            Week: {new Date().toLocaleDateString()}
+            Week: {currentDate || 'Loading...'}
           </p>
         </div>
 
-        <div className="bg-white rounded-lg shadow-md p-6 mb-6">
-          <div className="flex items-center justify-between mb-4">
-            <h2 className="text-lg font-semibold">Summary</h2>
-          </div>
+        <div className="mb-6">
+          <h2 className="text-lg font-semibold mb-4">Summary</h2>
           <div className="grid grid-cols-5 gap-4">
-            <div className="text-center">
+            <div className="bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow p-6 text-center border border-gray-100">
               <div className="text-3xl font-bold">{summary.total}</div>
-              <div className="text-sm text-secondary">Projects</div>
+              <div className="text-sm text-secondary mt-2">Projects</div>
             </div>
-            <div className="text-center">
+            <div className="bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow p-6 text-center border border-gray-100">
               <div className="text-3xl font-bold text-green-600">{summary.green}</div>
-              <div className="text-sm text-secondary">Green</div>
+              <div className="text-sm text-secondary mt-2">Green</div>
             </div>
-            <div className="text-center">
+            <div className="bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow p-6 text-center border border-gray-100">
               <div className="text-3xl font-bold text-amber-600">{summary.amber}</div>
-              <div className="text-sm text-secondary">Amber</div>
+              <div className="text-sm text-secondary mt-2">Amber</div>
             </div>
-            <div className="text-center">
+            <div className="bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow p-6 text-center border border-gray-100">
               <div className="text-3xl font-bold text-red-600">{summary.red}</div>
-              <div className="text-sm text-secondary">Red</div>
+              <div className="text-sm text-secondary mt-2">Red</div>
             </div>
-            <div className="text-center">
+            <div className="bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow p-6 text-center border border-gray-100">
               <div className="text-3xl font-bold text-gray-600">{summary.noStatus}</div>
-              <div className="text-sm text-secondary">No Status</div>
+              <div className="text-sm text-secondary mt-2">No Status</div>
             </div>
           </div>
         </div>
@@ -136,6 +157,18 @@ export default function DashboardPage() {
               <option value="Amber">Amber</option>
               <option value="Red">Red</option>
             </select>
+            <select
+              value={selectedWeekEnding}
+              onChange={(e) => setSelectedWeekEnding(e.target.value)}
+              className="px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
+            >
+              <option value="">All Weeks</option>
+              {getUniqueWeekEndingDates().map((date) => (
+                <option key={date} value={date}>
+                  Week ending {new Date(date).toLocaleDateString()}
+                </option>
+              ))}
+            </select>
           </div>
         </div>
 
@@ -146,7 +179,7 @@ export default function DashboardPage() {
             {filteredStatuses.map((status) => (
               <div
                 key={status.id || status.project_name}
-                className="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow"
+                className="bg-white rounded-xl shadow-sm hover:shadow-xl transition-all duration-300 p-6 border border-gray-100"
               >
                 <div className="flex items-start justify-between mb-3">
                   <div className="flex-1">
@@ -168,7 +201,7 @@ export default function DashboardPage() {
 
                 {status.submitted_by_name && (
                   <p className="text-sm text-secondary mb-2">
-                    PDM: {status.submitted_by_name}
+                    DD: {status.submitted_by_name}
                   </p>
                 )}
 
@@ -209,10 +242,13 @@ export default function DashboardPage() {
                   )}
                 </div>
 
-                {status.id && (
+                {status.project_id && (
                   <div className="mt-4 pt-4 border-t">
-                    <button className="text-primary text-sm hover:text-blue-600">
-                      View Details →
+                    <button
+                      onClick={() => router.push(`/project/${status.project_id}`)}
+                      className="text-primary text-sm hover:text-blue-600 font-medium"
+                    >
+                      View Status Updates →
                     </button>
                   </div>
                 )}

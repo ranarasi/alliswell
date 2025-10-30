@@ -1,3 +1,4 @@
+// Note: PDM role represents Delivery Director (DD) - kept as PDM in code for backwards compatibility
 export type UserRole = 'Admin' | 'Practice Head' | 'PDM';
 export type ProjectStatus = 'Active' | 'On Hold' | 'Completed';
 export type StatusColor = 'Green' | 'Amber' | 'Red';
@@ -19,7 +20,7 @@ export interface Project {
   client: string;
   start_date: Date;
   status: ProjectStatus;
-  assigned_pdm?: string;
+  assigned_pdm?: string; // Delivery Director (DD) assigned to project
   created_at: Date;
   updated_at: Date;
 }

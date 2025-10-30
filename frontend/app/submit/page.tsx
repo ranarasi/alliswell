@@ -46,6 +46,19 @@ export default function SubmitStatusPage() {
     return friday.toISOString().split('T')[0];
   };
 
+  const handleDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const selectedDate = new Date(e.target.value);
+    const dayOfWeek = selectedDate.getDay();
+
+    // Check if selected date is a Friday (5 = Friday)
+    if (dayOfWeek !== 5) {
+      alert('Please select a Friday as the week ending date');
+      return;
+    }
+
+    setWeekEndingDate(e.target.value);
+  };
+
   const fetchProjects = async () => {
     try {
       const response = await api.get<Project[]>('/projects?status=Active');
@@ -117,7 +130,8 @@ export default function SubmitStatusPage() {
       });
 
       alert('Status submitted successfully!');
-      resetForm();
+      // Redirect back to My Projects page
+      router.push('/pdm');
     } catch (error: any) {
       alert(error.response?.data?.message || 'Failed to submit status');
     } finally {
@@ -165,15 +179,16 @@ export default function SubmitStatusPage() {
 
           <div>
             <label className="block text-sm font-medium mb-2">
-              Week Ending Date *
+              Week Ending Date * (Fridays only)
             </label>
             <input
               type="date"
               value={weekEndingDate}
-              onChange={(e) => setWeekEndingDate(e.target.value)}
+              onChange={handleDateChange}
               className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
               required
             />
+            <p className="text-xs text-gray-500 mt-1">Please select a Friday</p>
           </div>
 
           <div>
@@ -218,14 +233,13 @@ export default function SubmitStatusPage() {
 
           <div>
             <label className="block text-sm font-medium mb-2">
-              All is Well * (500-1000 chars)
+              All is Well * (max 1000 chars)
             </label>
             <textarea
               value={allIsWell}
               onChange={(e) => setAllIsWell(e.target.value)}
               className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
               rows={6}
-              minLength={500}
               maxLength={1000}
               required
             />

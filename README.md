@@ -11,6 +11,8 @@ A lightweight web application for tracking weekly project status updates across 
 - ✅ Role-based access control
 
 ## Tech Stack
+- react
+- node
 
 ### Frontend
 - Next.js 14 with TypeScript

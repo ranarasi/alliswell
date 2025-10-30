@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import bcrypt from 'bcrypt';
+import bcrypt from 'bcryptjs';
 import pool from '../database/db';
 import { generateToken } from '../utils/jwt';
 import { AuthRequest } from '../middleware/auth';
@@ -67,6 +67,27 @@ export const me = async (req: AuthRequest, res: Response) => {
     res.json(userWithoutPassword);
   } catch (error) {
     console.error('Get user error:', error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+};
+
+export const getUsers = async (req: AuthRequest, res: Response) => {
+  try {
+    let query = 'SELECT id, name, email, role, is_active FROM users WHERE is_active = TRUE';
+    const params: any[] = [];
+
+    // Filter by role if provided
+    if (req.query.role) {
+      query += ' AND role = $1';
+      params.push(req.query.role);
+    }
+
+    query += ' ORDER BY name';
+
+    const result = await pool.query(query, params);
+    res.json(result.rows);
+  } catch (error) {
+    console.error('Get users error:', error);
     res.status(500).json({ message: 'Internal server error' });
   }
 };

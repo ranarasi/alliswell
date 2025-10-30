@@ -12,7 +12,7 @@ export const getProjects = async (req: AuthRequest, res: Response) => {
     `;
     let params: any[] = [];
 
-    // PDMs can only see their assigned projects
+    // Delivery Directors can only see their assigned projects
     if (user.role === 'PDM') {
       query += ' WHERE p.assigned_pdm = $1';
       params.push(user.id);
@@ -48,7 +48,7 @@ export const getProject = async (req: AuthRequest, res: Response) => {
     `;
     let params: any[] = [id];
 
-    // PDMs can only see their assigned projects
+    // Delivery Directors can only see their assigned projects
     if (user.role === 'PDM') {
       query += ' AND p.assigned_pdm = $2';
       params.push(user.id);

@@ -5,20 +5,31 @@ import { api } from '@/lib/api';
 import { Project } from '@/types';
 import Navbar from '@/components/Navbar';
 
+interface User {
+  id: string;
+  name: string;
+  email: string;
+  role: string;
+}
+
 export default function ManageProjectsPage() {
   const [projects, setProjects] = useState<Project[]>([]);
+  const [deliveryDirectors, setDeliveryDirectors] = useState<User[]>([]);
   const [loading, setLoading] = useState(true);
   const [showForm, setShowForm] = useState(false);
   const [editingProject, setEditingProject] = useState<Project | null>(null);
   const [formData, setFormData] = useState({
     name: '',
     client: '',
+    description: '',
+    assignedPdm: '',
     startDate: '',
     status: 'Active' as 'Active' | 'On Hold' | 'Completed',
   });
 
   useEffect(() => {
     fetchProjects();
+    fetchDeliveryDirectors();
   }, []);
 
   const fetchProjects = async () => {
@@ -29,6 +40,15 @@ export default function ManageProjectsPage() {
       console.error('Failed to fetch projects:', error);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const fetchDeliveryDirectors = async () => {
+    try {
+      const response = await api.get<User[]>('/auth/users?role=PDM');
+      setDeliveryDirectors(response.data);
+    } catch (error) {
+      console.error('Failed to fetch Delivery Directors:', error);
     }
   };
 
@@ -47,12 +67,15 @@ export default function ManageProjectsPage() {
     }
   };
 
-  const handleEdit = (project: Project) => {
+  const handleEdit = (project: any) => {
     setEditingProject(project);
+    const startDate = project.start_date || project.startDate;
     setFormData({
       name: project.name,
       client: project.client,
-      startDate: new Date(project.startDate).toISOString().split('T')[0],
+      description: project.description || '',
+      assignedPdm: project.assigned_pdm || '',
+      startDate: new Date(startDate).toISOString().split('T')[0],
       status: project.status,
     });
     setShowForm(true);
@@ -72,6 +95,8 @@ export default function ManageProjectsPage() {
     setFormData({
       name: '',
       client: '',
+      description: '',
+      assignedPdm: '',
       startDate: '',
       status: 'Active',
     });
@@ -135,6 +160,34 @@ export default function ManageProjectsPage() {
                 />
               </div>
               <div>
+                <label className="block text-sm font-medium mb-1">Description</label>
+                <textarea
+                  value={formData.description}
+                  onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+                  rows={3}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
+                  placeholder="Brief project description"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium mb-1">
+                  Delivery Director *
+                </label>
+                <select
+                  value={formData.assignedPdm}
+                  onChange={(e) => setFormData({ ...formData, assignedPdm: e.target.value })}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
+                  required
+                >
+                  <option value="">Select a Delivery Director</option>
+                  {deliveryDirectors.map((dd) => (
+                    <option key={dd.id} value={dd.id}>
+                      {dd.name} ({dd.email})
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <div>
                 <label className="block text-sm font-medium mb-1">Start Date *</label>
                 <input
                   type="date"
@@ -186,7 +239,7 @@ export default function ManageProjectsPage() {
         {loading ? (
           <div className="text-center py-12">Loading...</div>
         ) : (
-          <div className="bg-white rounded-lg shadow-md overflow-hidden">
+          <div className="bg-white rounded-lg shadow-md overflow-x-auto">
             <table className="min-w-full divide-y divide-gray-200">
               <thead className="bg-gray-50">
                 <tr>
@@ -215,7 +268,7 @@ export default function ManageProjectsPage() {
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">{project.client}</td>
                     <td className="px-6 py-4 whitespace-nowrap">
-                      {new Date(project.startDate).toLocaleDateString()}
+                      {new Date((project as any).start_date || project.startDate).toLocaleDateString()}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
                       <span

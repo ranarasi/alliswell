@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { api } from '@/lib/api';
 import { setAuth } from '@/lib/auth';
 import { AuthResponse } from '@/types';
+import Logo from '@/components/Logo';
 
 export default function LoginPage() {
   const router = useRouter();
@@ -30,8 +31,10 @@ export default function LoginPage() {
       // Redirect based on role
       if (user.role === 'Admin' || user.role === 'Practice Head') {
         router.push('/dashboard');
+      } else if (user.role === 'PDM') {
+        router.push('/pdm');
       } else {
-        router.push('/submit');
+        router.push('/');
       }
     } catch (err: any) {
       setError(err.response?.data?.message || 'Login failed. Please try again.');
@@ -43,7 +46,10 @@ export default function LoginPage() {
   return (
     <div className="min-h-screen flex items-center justify-center bg-background">
       <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
-        <h1 className="text-2xl font-bold mb-6 text-center">Login to AllIsWell</h1>
+        <div className="flex flex-col items-center mb-6">
+          <Logo size={64} />
+          <h1 className="text-2xl font-bold mt-4 text-center">Login to AllIsWell</h1>
+        </div>
 
         {error && (
           <div className="mb-4 p-3 bg-red-50 border border-red-200 text-red-700 rounded">
