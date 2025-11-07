@@ -195,7 +195,7 @@ export default function SubmitStatusPage() {
             <label className="block text-sm font-medium mb-2">
               Overall Status *
             </label>
-            <div className="flex space-x-4">
+            <div className="flex flex-wrap gap-3 sm:gap-4">
               {(['Green', 'Amber', 'Red'] as StatusColor[]).map((status) => (
                 <label key={status} className="flex items-center">
                   <input
@@ -206,7 +206,7 @@ export default function SubmitStatusPage() {
                     className="mr-2"
                   />
                   <span
-                    className={`px-3 py-1 rounded-md ${
+                    className={`px-3 py-1 rounded-md text-sm sm:text-base ${
                       status === 'Green'
                         ? 'bg-green text-white'
                         : status === 'Amber'
@@ -312,25 +312,25 @@ export default function SubmitStatusPage() {
             </div>
           </div>
 
-          <div className="flex items-center justify-between pt-4 border-t">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 pt-4 border-t">
             <div className="text-sm text-gray-500">
               {autoSaving && 'Auto-saving...'}
               {lastSaved && !autoSaving && (
                 <>Auto-saved {Math.floor((Date.now() - lastSaved.getTime()) / 1000 / 60)} minutes ago</>
               )}
             </div>
-            <div className="space-x-3">
+            <div className="flex gap-3">
               <button
                 type="button"
                 onClick={() => saveDraft()}
-                className="px-4 py-2 bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300 transition-colors"
+                className="flex-1 sm:flex-none px-4 py-2 bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300 transition-colors text-sm sm:text-base"
               >
                 Save Draft
               </button>
               <button
                 type="submit"
                 disabled={loading}
-                className="px-4 py-2 bg-primary text-white rounded-md hover:bg-blue-600 transition-colors disabled:opacity-50"
+                className="flex-1 sm:flex-none px-4 py-2 bg-primary text-white rounded-md hover:bg-blue-600 transition-colors disabled:opacity-50 text-sm sm:text-base"
               >
                 {loading ? 'Submitting...' : 'Submit'}
               </button>

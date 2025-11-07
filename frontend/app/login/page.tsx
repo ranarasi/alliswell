@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { api } from '@/lib/api';
 import { setAuth } from '@/lib/auth';
@@ -13,6 +13,21 @@ export default function LoginPage() {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  const [microsoftSsoEnabled, setMicrosoftSsoEnabled] = useState(false);
+
+  useEffect(() => {
+    // Check if Microsoft SSO is enabled
+    const checkMicrosoftSso = async () => {
+      try {
+        const response = await api.get('/auth/microsoft/config');
+        setMicrosoftSsoEnabled(response.data.enabled);
+      } catch (error) {
+        console.error('Failed to check Microsoft SSO status:', error);
+      }
+    };
+
+    checkMicrosoftSso();
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -39,6 +54,20 @@ export default function LoginPage() {
     } catch (err: any) {
       setError(err.response?.data?.message || 'Login failed. Please try again.');
     } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleMicrosoftLogin = async () => {
+    try {
+      setLoading(true);
+      const response = await api.get('/auth/microsoft');
+      const { authUrl } = response.data;
+
+      // Redirect to Microsoft login page
+      window.location.href = authUrl;
+    } catch (err: any) {
+      setError('Failed to initiate Microsoft login. Please try again.');
       setLoading(false);
     }
   };
@@ -94,6 +123,33 @@ export default function LoginPage() {
             {loading ? 'Logging in...' : 'Login'}
           </button>
         </form>
+
+        {microsoftSsoEnabled && (
+          <>
+            <div className="relative my-6">
+              <div className="absolute inset-0 flex items-center">
+                <div className="w-full border-t border-gray-300"></div>
+              </div>
+              <div className="relative flex justify-center text-sm">
+                <span className="px-2 bg-white text-gray-500">Or continue with</span>
+              </div>
+            </div>
+
+            <button
+              onClick={handleMicrosoftLogin}
+              disabled={loading}
+              className="w-full flex items-center justify-center gap-3 bg-white text-gray-700 py-2 px-4 rounded-md border border-gray-300 hover:bg-gray-50 transition-colors disabled:opacity-50"
+            >
+              <svg className="w-5 h-5" viewBox="0 0 23 23" fill="none">
+                <rect x="1" y="1" width="10" height="10" fill="#F25022" />
+                <rect x="12" y="1" width="10" height="10" fill="#7FBA00" />
+                <rect x="1" y="12" width="10" height="10" fill="#00A4EF" />
+                <rect x="12" y="12" width="10" height="10" fill="#FFB900" />
+              </svg>
+              Sign in with Microsoft
+            </button>
+          </>
+        )}
       </div>
     </div>
   );

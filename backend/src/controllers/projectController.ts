@@ -69,17 +69,17 @@ export const getProject = async (req: AuthRequest, res: Response) => {
 
 export const createProject = async (req: AuthRequest, res: Response) => {
   try {
-    const { name, client, startDate, status, assignedPDM } = req.body;
+    const { name, client, description, startDate, status, assignedPDM, projectManager, businessUnitHead } = req.body;
 
     if (!name || !client || !startDate || !status) {
       return res.status(400).json({ message: 'Missing required fields' });
     }
 
     const result = await pool.query(
-      `INSERT INTO projects (name, client, start_date, status, assigned_pdm)
-       VALUES ($1, $2, $3, $4, $5)
+      `INSERT INTO projects (name, client, description, start_date, status, assigned_pdm, project_manager, business_unit_head)
+       VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
        RETURNING *`,
-      [name, client, startDate, status, assignedPDM || null]
+      [name, client, description || null, startDate, status, assignedPDM || null, projectManager || null, businessUnitHead || null]
     );
 
     res.status(201).json(result.rows[0]);
@@ -95,19 +95,22 @@ export const createProject = async (req: AuthRequest, res: Response) => {
 export const updateProject = async (req: AuthRequest, res: Response) => {
   try {
     const { id } = req.params;
-    const { name, client, startDate, status, assignedPDM } = req.body;
+    const { name, client, description, startDate, status, assignedPDM, projectManager, businessUnitHead } = req.body;
 
     const result = await pool.query(
       `UPDATE projects
        SET name = COALESCE($1, name),
            client = COALESCE($2, client),
-           start_date = COALESCE($3, start_date),
-           status = COALESCE($4, status),
-           assigned_pdm = COALESCE($5, assigned_pdm),
+           description = COALESCE($3, description),
+           start_date = COALESCE($4, start_date),
+           status = COALESCE($5, status),
+           assigned_pdm = COALESCE($6, assigned_pdm),
+           project_manager = COALESCE($7, project_manager),
+           business_unit_head = COALESCE($8, business_unit_head),
            updated_at = CURRENT_TIMESTAMP
-       WHERE id = $6
+       WHERE id = $9
        RETURNING *`,
-      [name, client, startDate, status, assignedPDM, id]
+      [name, client, description, startDate, status, assignedPDM, projectManager, businessUnitHead, id]
     );
 
     if (result.rows.length === 0) {

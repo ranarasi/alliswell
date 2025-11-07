@@ -192,37 +192,39 @@ export default function WeeklySummaryPage() {
 
           {/* Filters and Actions */}
           <div className="bg-white rounded-lg shadow-md p-6 mb-8">
-            <div className="flex flex-col sm:flex-row gap-4 items-end">
-              <div className="flex-1">
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Week Ending Date (Fridays only)
-                </label>
-                <input
-                  type="date"
-                  value={selectedWeek}
-                  onChange={handleDateChange}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
-                  placeholder="Select week ending date"
-                />
-                <p className="text-xs text-gray-500 mt-1">Please select a Friday</p>
-              </div>
-              <div className="flex gap-3">
-                <button
-                  onClick={generateSummary}
-                  disabled={!selectedWeek || loading}
-                  className="px-6 py-2 bg-primary text-white rounded-md hover:bg-primary/90 transition-colors font-medium disabled:bg-gray-300 disabled:cursor-not-allowed"
-                >
-                  {loading ? 'Generating...' : 'Create Summary'}
-                </button>
-                {summaryGenerated && projectStatuses.length > 0 && (
+            <div className="flex flex-col gap-4">
+              <div className="flex flex-col sm:flex-row gap-4 items-start">
+                <div className="flex-1 w-full sm:w-auto">
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Week Ending Date (Fridays only)
+                  </label>
+                  <input
+                    type="date"
+                    value={selectedWeek}
+                    onChange={handleDateChange}
+                    className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
+                    placeholder="Select week ending date"
+                  />
+                </div>
+                <div className="flex gap-3 w-full sm:w-auto sm:mt-7">
                   <button
-                    onClick={copySummaryToClipboard}
-                    className="px-6 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 transition-colors font-medium"
+                    onClick={generateSummary}
+                    disabled={!selectedWeek || loading}
+                    className="px-6 py-2 bg-primary text-white rounded-md hover:bg-primary/90 transition-colors font-medium disabled:bg-gray-300 disabled:cursor-not-allowed whitespace-nowrap"
                   >
-                    Copy to Clipboard
+                    {loading ? 'Generating...' : 'Create Summary'}
                   </button>
-                )}
+                  {summaryGenerated && projectStatuses.length > 0 && (
+                    <button
+                      onClick={copySummaryToClipboard}
+                      className="px-6 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 transition-colors font-medium whitespace-nowrap"
+                    >
+                      Copy to Clipboard
+                    </button>
+                  )}
+                </div>
               </div>
+              <p className="text-xs text-gray-500 -mt-2">Please select a Friday</p>
             </div>
           </div>
 
