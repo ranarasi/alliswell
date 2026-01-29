@@ -4,7 +4,7 @@ import { AuthRequest } from '../middleware/auth';
 
 export const getStatuses = async (req: AuthRequest, res: Response) => {
   try {
-    const user = req.user!;
+    const user = req.user;
     let query = `
       SELECT ws.*, p.name as project_name, p.client, u.name as submitted_by_name
       FROM weekly_status ws
@@ -15,7 +15,7 @@ export const getStatuses = async (req: AuthRequest, res: Response) => {
     let conditions: string[] = [];
 
     // Delivery Directors can only see their own submissions
-    if (user.role === 'PDM') {
+    if (user && user.role === 'PDM') {
       conditions.push(`ws.submitted_by = $${params.length + 1}`);
       params.push(user.id);
     }
@@ -59,7 +59,7 @@ export const getStatuses = async (req: AuthRequest, res: Response) => {
 
 export const getLatestStatuses = async (req: AuthRequest, res: Response) => {
   try {
-    const user = req.user!;
+    const user = req.user;
 
     let query = `
       SELECT DISTINCT ON (p.id)
@@ -71,7 +71,7 @@ export const getLatestStatuses = async (req: AuthRequest, res: Response) => {
     let params: any[] = [];
 
     // Delivery Directors see only their assigned projects
-    if (user.role === 'PDM') {
+    if (user && user.role === 'PDM') {
       query += ' WHERE p.assigned_pdm = $1';
       params.push(user.id);
     }
@@ -115,7 +115,7 @@ export const getLatestStatusByProject = async (req: AuthRequest, res: Response) 
 export const getStatus = async (req: AuthRequest, res: Response) => {
   try {
     const { id } = req.params;
-    const user = req.user!;
+    const user = req.user;
 
     let query = `
       SELECT ws.*, p.name as project_name, p.client, u.name as submitted_by_name
@@ -127,7 +127,7 @@ export const getStatus = async (req: AuthRequest, res: Response) => {
     let params: any[] = [id];
 
     // Delivery Directors can only see their own submissions
-    if (user.role === 'PDM') {
+    if (user && user.role === 'PDM') {
       query += ' AND ws.submitted_by = $2';
       params.push(user.id);
     }
@@ -147,7 +147,12 @@ export const getStatus = async (req: AuthRequest, res: Response) => {
 
 export const createStatus = async (req: AuthRequest, res: Response) => {
   try {
-    const user = req.user!;
+    const user = req.user;
+
+    if (!user) {
+      return res.status(400).json({ message: 'User context required for this operation' });
+    }
+
     const {
       projectId,
       weekEndingDate,
@@ -165,7 +170,7 @@ export const createStatus = async (req: AuthRequest, res: Response) => {
     }
 
     // Verify Delivery Director is assigned to this project
-    if (user.role === 'PDM') {
+    if (user && user.role === 'PDM') {
       const projectCheck = await pool.query(
         'SELECT id FROM projects WHERE id = $1 AND assigned_pdm = $2',
         [projectId, user.id]
@@ -216,7 +221,12 @@ export const createStatus = async (req: AuthRequest, res: Response) => {
 export const updateStatus = async (req: AuthRequest, res: Response) => {
   try {
     const { id } = req.params;
-    const user = req.user!;
+    const user = req.user;
+
+    if (!user) {
+      return res.status(400).json({ message: 'User context required for this operation' });
+    }
+
     const {
       overallStatus,
       allIsWell,
@@ -228,7 +238,7 @@ export const updateStatus = async (req: AuthRequest, res: Response) => {
     } = req.body;
 
     // Check ownership for Delivery Directors
-    if (user.role === 'PDM') {
+    if (user && user.role === 'PDM') {
       const ownerCheck = await pool.query(
         'SELECT id FROM weekly_status WHERE id = $1 AND submitted_by = $2',
         [id, user.id]
@@ -268,10 +278,14 @@ export const updateStatus = async (req: AuthRequest, res: Response) => {
 export const deleteStatus = async (req: AuthRequest, res: Response) => {
   try {
     const { id } = req.params;
-    const user = req.user!;
+    const user = req.user;
+
+    if (!user) {
+      return res.status(400).json({ message: 'User context required for this operation' });
+    }
 
     // Check ownership for Delivery Directors
-    if (user.role === 'PDM') {
+    if (user && user.role === 'PDM') {
       const ownerCheck = await pool.query(
         'SELECT id FROM weekly_status WHERE id = $1 AND submitted_by = $2',
         [id, user.id]
@@ -301,7 +315,7 @@ export const deleteStatus = async (req: AuthRequest, res: Response) => {
 export const getPreviousStatus = async (req: AuthRequest, res: Response) => {
   try {
     const { projectId } = req.params;
-    const user = req.user!;
+    const user = req.user;
 
     let query = `
       SELECT ws.*
@@ -312,7 +326,7 @@ export const getPreviousStatus = async (req: AuthRequest, res: Response) => {
     let params: any[] = [projectId];
 
     // Delivery Directors can only get their own previous submissions
-    if (user.role === 'PDM') {
+    if (user && user.role === 'PDM') {
       query += ' AND ws.submitted_by = $2';
       params.push(user.id);
     }

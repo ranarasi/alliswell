@@ -62,6 +62,9 @@ export default function ManageProjectsPage() {
   const [valueContent, setValueContent] = useState('');
   const [valuesLoading, setValuesLoading] = useState(false);
   const [saving, setSaving] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [sortField, setSortField] = useState<string>('');
+  const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('asc');
   const [formData, setFormData] = useState({
     name: '',
     client: '',
@@ -71,6 +74,7 @@ export default function ManageProjectsPage() {
     businessUnitHead: '',
     startDate: '',
     status: 'Active' as 'Active' | 'On Hold' | 'Completed',
+    aiUsage: '',
   });
 
   useEffect(() => {
@@ -147,6 +151,7 @@ export default function ManageProjectsPage() {
       businessUnitHead: project.business_unit_head || '',
       startDate: new Date(startDate).toISOString().split('T')[0],
       status: project.status,
+      aiUsage: project.ai_usage || '',
     });
     setShowForm(true);
     setActiveTab('home');
@@ -172,6 +177,7 @@ export default function ManageProjectsPage() {
       businessUnitHead: '',
       startDate: '',
       status: 'Active',
+      aiUsage: '',
     });
     setEditingProject(null);
     setShowForm(false);
@@ -192,6 +198,7 @@ export default function ManageProjectsPage() {
       businessUnitHead: '',
       startDate: '',
       status: 'Active',
+      aiUsage: '',
     });
     setShowForm(true);
     setActiveTab('home');
@@ -272,9 +279,68 @@ export default function ManageProjectsPage() {
     return '';
   };
 
+  const handleSort = (field: string) => {
+    if (sortField === field) {
+      setSortDirection(sortDirection === 'asc' ? 'desc' : 'asc');
+    } else {
+      setSortField(field);
+      setSortDirection('asc');
+    }
+  };
+
+  const getSortIcon = (field: string) => {
+    if (sortField !== field) return ' ↕';
+    return sortDirection === 'asc' ? ' ↑' : ' ↓';
+  };
+
+  const filteredProjects = projects
+    .filter(project =>
+      project.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      project.client.toLowerCase().includes(searchQuery.toLowerCase())
+    )
+    .sort((a, b) => {
+      if (!sortField) return 0;
+
+      let aValue: any;
+      let bValue: any;
+
+      switch (sortField) {
+        case 'client':
+          aValue = a.client?.toLowerCase() || '';
+          bValue = b.client?.toLowerCase() || '';
+          break;
+        case 'description':
+          aValue = (a as any).description?.toLowerCase() || '';
+          bValue = (b as any).description?.toLowerCase() || '';
+          break;
+        case 'ai_usage':
+          aValue = (a as any).ai_usage?.toLowerCase() || '';
+          bValue = (b as any).ai_usage?.toLowerCase() || '';
+          break;
+        case 'pdm_name':
+          aValue = (a as any).pdm_name?.toLowerCase() || '';
+          bValue = (b as any).pdm_name?.toLowerCase() || '';
+          break;
+        case 'business_unit_head':
+          aValue = (a as any).business_unit_head?.toLowerCase() || '';
+          bValue = (b as any).business_unit_head?.toLowerCase() || '';
+          break;
+        case 'status':
+          aValue = a.status?.toLowerCase() || '';
+          bValue = b.status?.toLowerCase() || '';
+          break;
+        default:
+          return 0;
+      }
+
+      if (aValue < bValue) return sortDirection === 'asc' ? -1 : 1;
+      if (aValue > bValue) return sortDirection === 'asc' ? 1 : -1;
+      return 0;
+    });
+
   return (
     <div className="min-h-screen bg-background">
-      <Navbar />
+      <Navbar mode="admin" />
       <div className="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center mb-6">
           <h1 className="text-3xl font-bold">Manage Projects</h1>
@@ -366,6 +432,16 @@ export default function ManageProjectsPage() {
                   rows={3}
                   className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
                   placeholder="Brief project description"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium mb-1">AI</label>
+                <textarea
+                  value={formData.aiUsage}
+                  onChange={(e) => setFormData({ ...formData, aiUsage: e.target.value })}
+                  rows={3}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
+                  placeholder="How is AI used in this project"
                 />
               </div>
               <div>
@@ -578,6 +654,17 @@ export default function ManageProjectsPage() {
 
         {!showForm && (
           <>
+            {/* Search Bar */}
+            <div className="mb-4">
+              <input
+                type="text"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                placeholder="Search by project name or client..."
+                className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
+              />
+            </div>
+
             {loading ? (
               <div className="text-center py-12">Loading...</div>
             ) : (
@@ -585,40 +672,64 @@ export default function ManageProjectsPage() {
                 <table className="min-w-full divide-y divide-gray-200">
                   <thead className="bg-gray-50">
                     <tr>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
-                        Project Name
+                      <th
+                        className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase cursor-pointer hover:bg-gray-100"
+                        onClick={() => handleSort('client')}
+                      >
+                        Client{getSortIcon('client')}
                       </th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
-                        Client
+                      <th
+                        className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase cursor-pointer hover:bg-gray-100"
+                        onClick={() => handleSort('description')}
+                      >
+                        Description{getSortIcon('description')}
                       </th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
-                        Delivery Director
+                      <th
+                        className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase cursor-pointer hover:bg-gray-100"
+                        onClick={() => handleSort('ai_usage')}
+                      >
+                        AI{getSortIcon('ai_usage')}
                       </th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
-                        Start Date
+                      <th
+                        className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase cursor-pointer hover:bg-gray-100"
+                        onClick={() => handleSort('pdm_name')}
+                      >
+                        Delivery Director{getSortIcon('pdm_name')}
                       </th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
-                        Status
+                      <th
+                        className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase cursor-pointer hover:bg-gray-100"
+                        onClick={() => handleSort('business_unit_head')}
+                      >
+                        BUH{getSortIcon('business_unit_head')}
                       </th>
-                      <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase">
+                      <th
+                        className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase cursor-pointer hover:bg-gray-100"
+                        onClick={() => handleSort('status')}
+                      >
+                        Active{getSortIcon('status')}
+                      </th>
+                      <th className="px-4 py-3 text-right text-xs font-medium text-gray-500 uppercase">
                         Actions
                       </th>
                     </tr>
                   </thead>
                   <tbody className="bg-white divide-y divide-gray-200">
-                    {projects.map((project) => (
-                      <tr key={project.id}>
-                        <td className="px-6 py-4 whitespace-nowrap font-medium">
-                          {project.name}
+                    {filteredProjects.map((project) => (
+                      <tr key={project.id} className="hover:bg-gray-50">
+                        <td className="px-4 py-3 text-sm">{project.client}</td>
+                        <td className="px-4 py-3 text-sm max-w-xs truncate">
+                          {(project as any).description || '-'}
                         </td>
-                        <td className="px-6 py-4 whitespace-nowrap">{project.client}</td>
-                        <td className="px-6 py-4 whitespace-nowrap">
+                        <td className="px-4 py-3 text-sm max-w-xs truncate">
+                          {(project as any).ai_usage || '-'}
+                        </td>
+                        <td className="px-4 py-3 text-sm">
                           {(project as any).pdm_name || 'Not assigned'}
                         </td>
-                        <td className="px-6 py-4 whitespace-nowrap">
-                          {new Date((project as any).start_date || project.startDate).toLocaleDateString()}
+                        <td className="px-4 py-3 text-sm">
+                          {(project as any).business_unit_head || '-'}
                         </td>
-                        <td className="px-6 py-4 whitespace-nowrap">
+                        <td className="px-4 py-3 text-sm">
                           <span
                             className={`px-2 py-1 text-xs rounded-full ${getStatusColor(
                               project.status
@@ -627,7 +738,7 @@ export default function ManageProjectsPage() {
                             {project.status}
                           </span>
                         </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-right space-x-2">
+                        <td className="px-4 py-3 text-sm text-right space-x-2">
                           <button
                             onClick={() => handleEdit(project)}
                             className="text-primary hover:text-blue-600"
@@ -645,6 +756,11 @@ export default function ManageProjectsPage() {
                     ))}
                   </tbody>
                 </table>
+                {filteredProjects.length === 0 && projects.length > 0 && (
+                  <div className="text-center py-12 text-gray-500">
+                    No projects match your search.
+                  </div>
+                )}
                 {projects.length === 0 && (
                   <div className="text-center py-12 text-gray-500">
                     No projects found. Add your first project!

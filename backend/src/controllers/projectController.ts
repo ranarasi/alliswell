@@ -4,7 +4,7 @@ import { AuthRequest } from '../middleware/auth';
 
 export const getProjects = async (req: AuthRequest, res: Response) => {
   try {
-    const user = req.user!;
+    const user = req.user;
     let query = `
       SELECT p.*, u.name as pdm_name
       FROM projects p
@@ -13,7 +13,7 @@ export const getProjects = async (req: AuthRequest, res: Response) => {
     let params: any[] = [];
 
     // Delivery Directors can only see their assigned projects
-    if (user.role === 'PDM') {
+    if (user && user.role === 'PDM') {
       query += ' WHERE p.assigned_pdm = $1';
       params.push(user.id);
     }
@@ -38,7 +38,7 @@ export const getProjects = async (req: AuthRequest, res: Response) => {
 export const getProject = async (req: AuthRequest, res: Response) => {
   try {
     const { id } = req.params;
-    const user = req.user!;
+    const user = req.user;
 
     let query = `
       SELECT p.*, u.name as pdm_name
@@ -49,7 +49,7 @@ export const getProject = async (req: AuthRequest, res: Response) => {
     let params: any[] = [id];
 
     // Delivery Directors can only see their assigned projects
-    if (user.role === 'PDM') {
+    if (user && user.role === 'PDM') {
       query += ' AND p.assigned_pdm = $2';
       params.push(user.id);
     }
@@ -69,17 +69,17 @@ export const getProject = async (req: AuthRequest, res: Response) => {
 
 export const createProject = async (req: AuthRequest, res: Response) => {
   try {
-    const { name, client, description, startDate, status, assignedPDM, projectManager, businessUnitHead } = req.body;
+    const { name, client, description, startDate, status, assignedPDM, projectManager, businessUnitHead, aiUsage } = req.body;
 
     if (!name || !client || !startDate || !status) {
       return res.status(400).json({ message: 'Missing required fields' });
     }
 
     const result = await pool.query(
-      `INSERT INTO projects (name, client, description, start_date, status, assigned_pdm, project_manager, business_unit_head)
-       VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
+      `INSERT INTO projects (name, client, description, start_date, status, assigned_pdm, project_manager, business_unit_head, ai_usage)
+       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
        RETURNING *`,
-      [name, client, description || null, startDate, status, assignedPDM || null, projectManager || null, businessUnitHead || null]
+      [name, client, description || null, startDate, status, assignedPDM || null, projectManager || null, businessUnitHead || null, aiUsage || null]
     );
 
     res.status(201).json(result.rows[0]);
@@ -95,22 +95,72 @@ export const createProject = async (req: AuthRequest, res: Response) => {
 export const updateProject = async (req: AuthRequest, res: Response) => {
   try {
     const { id } = req.params;
-    const { name, client, description, startDate, status, assignedPDM, projectManager, businessUnitHead } = req.body;
+    const { name, client, description, startDate, status, assignedPdm, assignedPDM, projectManager, businessUnitHead, aiUsage } = req.body;
+
+    // Support both camelCase variations
+    const pdmValue = assignedPdm !== undefined ? assignedPdm : assignedPDM;
+
+    // Build dynamic update query to only update provided fields
+    const updates: string[] = [];
+    const values: any[] = [];
+    let paramCount = 1;
+
+    if (name !== undefined) {
+      updates.push(`name = $${paramCount}`);
+      values.push(name);
+      paramCount++;
+    }
+    if (client !== undefined) {
+      updates.push(`client = $${paramCount}`);
+      values.push(client);
+      paramCount++;
+    }
+    if (description !== undefined) {
+      updates.push(`description = $${paramCount}`);
+      values.push(description);
+      paramCount++;
+    }
+    if (startDate !== undefined) {
+      updates.push(`start_date = $${paramCount}`);
+      values.push(startDate);
+      paramCount++;
+    }
+    if (status !== undefined) {
+      updates.push(`status = $${paramCount}`);
+      values.push(status);
+      paramCount++;
+    }
+    if (pdmValue !== undefined) {
+      updates.push(`assigned_pdm = $${paramCount}`);
+      values.push(pdmValue || null);
+      paramCount++;
+    }
+    if (projectManager !== undefined) {
+      updates.push(`project_manager = $${paramCount}`);
+      values.push(projectManager || null);
+      paramCount++;
+    }
+    if (businessUnitHead !== undefined) {
+      updates.push(`business_unit_head = $${paramCount}`);
+      values.push(businessUnitHead || null);
+      paramCount++;
+    }
+    if (aiUsage !== undefined) {
+      updates.push(`ai_usage = $${paramCount}`);
+      values.push(aiUsage || null);
+      paramCount++;
+    }
+
+    if (updates.length === 0) {
+      return res.status(400).json({ message: 'No fields to update' });
+    }
+
+    updates.push(`updated_at = CURRENT_TIMESTAMP`);
+    values.push(id);
 
     const result = await pool.query(
-      `UPDATE projects
-       SET name = COALESCE($1, name),
-           client = COALESCE($2, client),
-           description = COALESCE($3, description),
-           start_date = COALESCE($4, start_date),
-           status = COALESCE($5, status),
-           assigned_pdm = COALESCE($6, assigned_pdm),
-           project_manager = COALESCE($7, project_manager),
-           business_unit_head = COALESCE($8, business_unit_head),
-           updated_at = CURRENT_TIMESTAMP
-       WHERE id = $9
-       RETURNING *`,
-      [name, client, description, startDate, status, assignedPDM, projectManager, businessUnitHead, id]
+      `UPDATE projects SET ${updates.join(', ')} WHERE id = $${paramCount} RETURNING *`,
+      values
     );
 
     if (result.rows.length === 0) {

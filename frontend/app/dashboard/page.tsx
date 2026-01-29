@@ -42,7 +42,7 @@ export default function DashboardPage() {
   const [selectedWeekEnding, setSelectedWeekEnding] = useState<string>('');
   const [expandedStatusId, setExpandedStatusId] = useState<string | null>(null);
   const [currentDate, setCurrentDate] = useState<string>('');
-  const [activeTab, setActiveTab] = useState<'all-is-well' | 'project-ops'>('all-is-well');
+  const [activeTab, setActiveTab] = useState<'all-is-well' | 'project-ops' | 'values'>('all-is-well');
 
   // Project Ops state
   const [opsMonth, setOpsMonth] = useState(new Date().getMonth() + 1);
@@ -52,6 +52,13 @@ export default function DashboardPage() {
   const [opsDataLoaded, setOpsDataLoaded] = useState(false);
   const [sortColumn, setSortColumn] = useState<keyof ProjectOperations | null>(null);
   const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('asc');
+
+  // Values state
+  const [valuesFromDate, setValuesFromDate] = useState('');
+  const [valuesToDate, setValuesToDate] = useState('');
+  const [projectValues, setProjectValues] = useState<any[]>([]);
+  const [valuesLoading, setValuesLoading] = useState(false);
+  const [valuesDataLoaded, setValuesDataLoaded] = useState(false);
 
   useEffect(() => {
     setCurrentDate(new Date().toLocaleDateString());
@@ -127,6 +134,38 @@ export default function DashboardPage() {
 
   const handleSubmitOps = () => {
     fetchProjectOperations();
+  };
+
+  const fetchProjectValues = async () => {
+    try {
+      setValuesLoading(true);
+
+      let url = '/values';
+      const params = new URLSearchParams();
+
+      if (valuesFromDate) {
+        params.append('fromDate', valuesFromDate);
+      }
+      if (valuesToDate) {
+        params.append('toDate', valuesToDate);
+      }
+
+      if (params.toString()) {
+        url += `?${params.toString()}`;
+      }
+
+      const response = await api.get(url);
+      setProjectValues(response.data);
+      setValuesDataLoaded(true);
+    } catch (err: any) {
+      console.error('Failed to fetch values:', err);
+    } finally {
+      setValuesLoading(false);
+    }
+  };
+
+  const handleShowValues = () => {
+    fetchProjectValues();
   };
 
   const getStatusColor = (status: string) => {
@@ -260,7 +299,7 @@ export default function DashboardPage() {
 
   return (
     <div className="min-h-screen bg-background">
-      <Navbar />
+      <Navbar mode="admin" />
       <div className="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
         <div className="mb-6">
           <h1 className="text-3xl font-bold mb-2">Project Dashboard</h1>
@@ -293,6 +332,17 @@ export default function DashboardPage() {
               }`}
             >
               Project Ops
+            </button>
+            <button
+              type="button"
+              onClick={() => setActiveTab('values')}
+              className={`py-2 px-1 border-b-2 font-medium text-sm transition-colors ${
+                activeTab === 'values'
+                  ? 'border-primary text-primary'
+                  : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+              }`}
+            >
+              Values
             </button>
           </nav>
         </div>
@@ -569,6 +619,94 @@ export default function DashboardPage() {
               <div className="bg-white rounded-lg shadow-md p-12 text-center">
                 <p className="text-xl text-gray-500">
                   Select a month and year, then click Submit to view operations data
+                </p>
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* Values Tab */}
+        {activeTab === 'values' && (
+          <div className="space-y-6">
+            {/* Date Range Selection */}
+            <div className="bg-white rounded-lg shadow-md p-4 sm:p-6">
+              <h2 className="text-lg sm:text-xl font-semibold mb-4">Project Values</h2>
+              <div className="flex flex-col sm:flex-row gap-4 sm:items-end">
+                <div className="flex-1">
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    From Date
+                  </label>
+                  <input
+                    type="date"
+                    value={valuesFromDate}
+                    onChange={(e) => setValuesFromDate(e.target.value)}
+                    className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-primary"
+                  />
+                </div>
+                <div className="flex-1">
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    To Date
+                  </label>
+                  <input
+                    type="date"
+                    value={valuesToDate}
+                    onChange={(e) => setValuesToDate(e.target.value)}
+                    className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-primary"
+                  />
+                </div>
+                <button
+                  onClick={handleShowValues}
+                  disabled={valuesLoading}
+                  className="w-full sm:w-auto px-6 py-2 bg-primary text-white rounded hover:bg-primary/90 transition-colors font-medium disabled:opacity-50"
+                >
+                  {valuesLoading ? 'Loading...' : 'Show Value Projects'}
+                </button>
+              </div>
+            </div>
+
+            {/* Values Feed */}
+            {valuesDataLoaded && (
+              <div className="bg-white rounded-lg shadow-md p-6">
+                {projectValues.length === 0 ? (
+                  <div className="text-center py-8 text-gray-500">
+                    No values found for the selected date range
+                  </div>
+                ) : (
+                  <div className="space-y-6">
+                    {projectValues.map((value, index) => (
+                      <div key={value.id}>
+                        <div className="space-y-2">
+                          <h3 className="text-lg font-semibold text-gray-900">
+                            {value.project_name}
+                          </h3>
+                          <p className="text-sm text-gray-600">
+                            Updated on: {new Date(value.created_at).toLocaleDateString('en-US', {
+                              year: 'numeric',
+                              month: 'long',
+                              day: 'numeric',
+                              hour: '2-digit',
+                              minute: '2-digit'
+                            })}
+                          </p>
+                          <div
+                            className="prose max-w-none text-gray-700"
+                            dangerouslySetInnerHTML={{ __html: value.content }}
+                          />
+                        </div>
+                        {index < projectValues.length - 1 && (
+                          <hr className="mt-6 border-gray-300" />
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            )}
+
+            {!valuesDataLoaded && (
+              <div className="bg-white rounded-lg shadow-md p-12 text-center">
+                <p className="text-xl text-gray-500">
+                  Select a date range and click "Show Value Projects" to view values
                 </p>
               </div>
             )}

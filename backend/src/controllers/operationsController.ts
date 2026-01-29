@@ -6,7 +6,7 @@ import { AuthRequest } from '../middleware/auth';
 export const getProjectOperations = async (req: AuthRequest, res: Response) => {
   try {
     const { projectId } = req.params;
-    const user = req.user!;
+    const user = req.user;
 
     // Check if user has access to this project
     const projectCheck = await pool.query(
@@ -43,7 +43,7 @@ export const getProjectOperations = async (req: AuthRequest, res: Response) => {
 export const getOperationsByMonth = async (req: AuthRequest, res: Response) => {
   try {
     const { projectId, month, year } = req.params;
-    const user = req.user!;
+    const user = req.user;
 
     // Check if user has access to this project
     const projectCheck = await pool.query(
@@ -96,7 +96,7 @@ export const upsertOperations = async (req: AuthRequest, res: Response) => {
       rampDown,
       openPositions,
     } = req.body;
-    const user = req.user!;
+    const user = req.user;
 
     // Validate required fields
     if (!month || !year) {
@@ -168,7 +168,7 @@ export const upsertOperations = async (req: AuthRequest, res: Response) => {
 export const deleteOperations = async (req: AuthRequest, res: Response) => {
   try {
     const { projectId, id } = req.params;
-    const user = req.user!;
+    const user = req.user;
 
     // Check if user has access to this project
     const projectCheck = await pool.query(

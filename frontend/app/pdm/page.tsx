@@ -2,8 +2,8 @@
 
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import api from '@/lib/api';
-import { getUser } from '@/lib/auth';
+import { apiScoped } from '@/lib/api';
+import { usePDM } from '@/lib/pdmContext';
 import Navbar from '@/components/Navbar';
 
 interface Project {
@@ -38,12 +38,12 @@ interface ProjectOperations {
 
 export default function DDDashboard() {
   const router = useRouter();
+  const { selectedPDM } = usePDM();
   const [projects, setProjects] = useState<Project[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [selectedWeekEnding, setSelectedWeekEnding] = useState<string>('');
   const [activeTab, setActiveTab] = useState<'all-is-well' | 'project-ops'>('all-is-well');
-  const user = getUser();
 
   // Project Ops state
   const [opsMonth, setOpsMonth] = useState(new Date().getMonth() + 1);
@@ -53,26 +53,26 @@ export default function DDDashboard() {
   const [opsDataLoaded, setOpsDataLoaded] = useState(false);
 
   useEffect(() => {
-    if (!user || user.role !== 'PDM') {
-      router.push('/login');
+    if (!selectedPDM) {
+      router.push('/');
       return;
     }
 
     fetchProjects();
-  }, [router]);
+  }, [selectedPDM, router]);
 
   const fetchProjects = async () => {
     try {
       setLoading(true);
       // Fetch projects assigned to this Delivery Director
-      const projectsResponse = await api.get('/projects');
+      const projectsResponse = await apiScoped.get('/projects');
       const allProjects = projectsResponse.data;
 
       // Fetch latest status for each project
       const projectsWithStatus = await Promise.all(
         allProjects.map(async (project: Project) => {
           try {
-            const statusResponse = await api.get(`/status/latest/${project.id}`);
+            const statusResponse = await apiScoped.get(`/status/latest/${project.id}`);
             return {
               ...project,
               latest_status: statusResponse.data,
@@ -108,7 +108,7 @@ export default function DDDashboard() {
       setError('');
 
       // Fetch all projects for the DD
-      const projectsResponse = await api.get('/projects');
+      const projectsResponse = await apiScoped.get('/projects');
       const allProjects = projectsResponse.data;
 
       // Fetch operations data for each project for the selected month/year
@@ -117,7 +117,7 @@ export default function DDDashboard() {
       await Promise.all(
         allProjects.map(async (project: Project) => {
           try {
-            const response = await api.get(`/projects/${project.id}/operations/${opsMonth}/${opsYear}`);
+            const response = await apiScoped.get(`/projects/${project.id}/operations/${opsMonth}/${opsYear}`);
             const data = response.data;
             operationsData.push({
               project_id: project.id,
@@ -222,7 +222,7 @@ export default function DDDashboard() {
   if (loading) {
     return (
       <>
-        <Navbar />
+        <Navbar mode="delivery" />
         <div className="min-h-screen bg-background flex items-center justify-center">
           <div className="text-xl text-secondary">Loading your projects...</div>
         </div>

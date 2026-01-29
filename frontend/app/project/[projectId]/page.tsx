@@ -3,7 +3,6 @@
 import { useEffect, useState } from 'react';
 import { useRouter, useParams } from 'next/navigation';
 import api from '@/lib/api';
-import { getUser } from '@/lib/auth';
 import Navbar from '@/components/Navbar';
 
 interface Project {
@@ -29,7 +28,6 @@ export default function ProjectStatusPage() {
   const router = useRouter();
   const params = useParams();
   const projectId = params.projectId as string;
-  const user = getUser();
 
   const [project, setProject] = useState<Project | null>(null);
   const [statuses, setStatuses] = useState<StatusUpdate[]>([]);
@@ -48,12 +46,8 @@ export default function ProjectStatusPage() {
   });
 
   useEffect(() => {
-    if (!user) {
-      router.push('/login');
-      return;
-    }
     fetchProjectAndStatuses();
-  }, [projectId, router]);
+  }, [projectId]);
 
   const fetchProjectAndStatuses = async () => {
     try {
@@ -65,11 +59,6 @@ export default function ProjectStatusPage() {
       // Fetch all status updates for this project
       const statusResponse = await api.get(`/status?projectId=${projectId}`);
       setStatuses(statusResponse.data);
-
-      // Show submit form only for Delivery Directors
-      if (user?.role === 'PDM') {
-        setShowSubmitForm(true);
-      }
     } catch (err: any) {
       setError(err.response?.data?.message || 'Failed to fetch project data');
     } finally {

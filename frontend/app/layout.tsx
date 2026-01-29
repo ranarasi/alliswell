@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
+import { PDMProvider } from "@/lib/pdmContext";
 
 export const metadata: Metadata = {
   title: "AllIsWell - Project Status Tracker",
@@ -20,7 +21,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="antialiased bg-background text-text">
-        {children}
+        <PDMProvider>
+          {children}
+        </PDMProvider>
       </body>
     </html>
   );

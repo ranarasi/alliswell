@@ -2,8 +2,8 @@
 
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import api from '@/lib/api';
-import { getUser } from '@/lib/auth';
+import { apiScoped } from '@/lib/api';
+import { usePDM } from '@/lib/pdmContext';
 import Navbar from '@/components/Navbar';
 import dynamic from 'next/dynamic';
 import 'react-quill/dist/quill.snow.css';
@@ -55,7 +55,7 @@ interface BusinessUnitHead {
 
 export default function MyProjectsPage() {
   const router = useRouter();
-  const user = getUser();
+  const { selectedPDM } = usePDM();
 
   const [projects, setProjects] = useState<Project[]>([]);
   const [selectedProjectId, setSelectedProjectId] = useState('');
@@ -98,8 +98,8 @@ export default function MyProjectsPage() {
   const [valuesLoading, setValuesLoading] = useState(false);
 
   useEffect(() => {
-    if (!user || user.role !== 'PDM') {
-      router.push('/login');
+    if (!selectedPDM) {
+      router.push('/');
       return;
     }
     fetchProjects();
@@ -144,7 +144,7 @@ export default function MyProjectsPage() {
   const fetchProjects = async () => {
     try {
       setLoading(true);
-      const response = await api.get<Project[]>('/projects?status=Active');
+      const response = await apiScoped.get<Project[]>('/projects?status=Active');
       setProjects(response.data);
     } catch (err: any) {
       setError(err.response?.data?.message || 'Failed to fetch projects');
@@ -155,7 +155,7 @@ export default function MyProjectsPage() {
 
   const fetchBusinessUnitHeads = async () => {
     try {
-      const response = await api.get<BusinessUnitHead[]>('/business-unit-heads');
+      const response = await apiScoped.get<BusinessUnitHead[]>('/business-unit-heads');
       setBusinessUnitHeads(response.data);
     } catch (err: any) {
       console.error('Failed to fetch business unit heads:', err);
@@ -164,7 +164,7 @@ export default function MyProjectsPage() {
 
   const fetchProjectDetails = async (projectId: string) => {
     try {
-      const response = await api.get(`/projects/${projectId}`);
+      const response = await apiScoped.get(`/projects/${projectId}`);
       const projectData = response.data;
 
       // Populate form data
@@ -191,7 +191,7 @@ export default function MyProjectsPage() {
 
     try {
       setSaving(true);
-      await api.put(`/projects/${selectedProjectId}`, {
+      await apiScoped.put(`/projects/${selectedProjectId}`, {
         name: formData.name,
         client: formData.client,
         description: formData.description,
@@ -214,7 +214,7 @@ export default function MyProjectsPage() {
   const fetchOperations = async (projectId: string) => {
     try {
       setOperationsLoading(true);
-      const response = await api.get(`/projects/${projectId}/operations`);
+      const response = await apiScoped.get(`/projects/${projectId}/operations`);
       setOperations(response.data);
     } catch (err: any) {
       console.error('Failed to fetch operations:', err);
@@ -227,7 +227,7 @@ export default function MyProjectsPage() {
   // Fetch specific month's operations data
   const fetchOperationsByMonth = async (projectId: string, month: number, year: number) => {
     try {
-      const response = await api.get(`/projects/${projectId}/operations/${month}/${year}`);
+      const response = await apiScoped.get(`/projects/${projectId}/operations/${month}/${year}`);
       const data = response.data;
       // Pre-fill form with existing data
       setOperationsForm({
@@ -266,7 +266,7 @@ export default function MyProjectsPage() {
   const fetchValues = async (projectId: string) => {
     try {
       setValuesLoading(true);
-      const response = await api.get(`/projects/${projectId}/values`);
+      const response = await apiScoped.get(`/projects/${projectId}/values`);
       setValues(response.data);
     } catch (err: any) {
       console.error('Failed to fetch values:', err);
@@ -280,7 +280,7 @@ export default function MyProjectsPage() {
     if (!selectedProjectId) return;
     try {
       setSaving(true);
-      await api.post(`/projects/${selectedProjectId}/values`, {
+      await apiScoped.post(`/projects/${selectedProjectId}/values`, {
         content: valueContent
       });
       alert('Value added successfully!');
@@ -300,7 +300,7 @@ export default function MyProjectsPage() {
 
     try {
       setSaving(true);
-      await api.post(`/projects/${selectedProjectId}/operations`, {
+      await apiScoped.post(`/projects/${selectedProjectId}/operations`, {
         month: operationsForm.month,
         year: operationsForm.year,
         teamSize: parseInt(operationsForm.teamSize) || 0,
@@ -347,7 +347,7 @@ export default function MyProjectsPage() {
 
   return (
     <>
-      <Navbar />
+      <Navbar mode="delivery" />
       <div className="min-h-screen bg-background">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <h1 className="text-3xl font-bold mb-6">My Projects</h1>

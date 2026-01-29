@@ -2,8 +2,8 @@
 
 import { useEffect, useState } from 'react';
 import { useRouter, useParams } from 'next/navigation';
-import api from '@/lib/api';
-import { getUser } from '@/lib/auth';
+import { apiScoped } from '@/lib/api';
+import { usePDM } from '@/lib/pdmContext';
 import Navbar from '@/components/Navbar';
 import dynamic from 'next/dynamic';
 import 'react-quill/dist/quill.snow.css';
@@ -56,7 +56,7 @@ export default function EditProjectPage() {
   const router = useRouter();
   const params = useParams();
   const projectId = params.projectId as string;
-  const user = getUser();
+  const { selectedPDM } = usePDM();
 
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
@@ -72,6 +72,7 @@ export default function EditProjectPage() {
     status: 'Active',
     project_manager: '',
     business_unit_head: '',
+    ai_usage: '',
   });
 
   // Operations state
@@ -97,8 +98,8 @@ export default function EditProjectPage() {
   const [valuesLoading, setValuesLoading] = useState(false);
 
   useEffect(() => {
-    if (!user || user.role !== 'PDM') {
-      router.push('/login');
+    if (!selectedPDM) {
+      router.push('/');
       return;
     }
     fetchProject();
@@ -130,7 +131,7 @@ export default function EditProjectPage() {
   const fetchProject = async () => {
     try {
       setLoading(true);
-      const response = await api.get(`/projects/${projectId}`);
+      const response = await apiScoped.get(`/projects/${projectId}`);
       const projectData = response.data;
       setProject(projectData);
 
@@ -143,6 +144,7 @@ export default function EditProjectPage() {
         status: projectData.status,
         project_manager: projectData.project_manager || '',
         business_unit_head: projectData.business_unit_head || '',
+        ai_usage: projectData.ai_usage || '',
       });
     } catch (err: any) {
       setError(err.response?.data?.message || 'Failed to fetch project');
@@ -153,7 +155,7 @@ export default function EditProjectPage() {
 
   const fetchBusinessUnitHeads = async () => {
     try {
-      const response = await api.get<BusinessUnitHead[]>('/business-unit-heads');
+      const response = await apiScoped.get<BusinessUnitHead[]>('/business-unit-heads');
       setBusinessUnitHeads(response.data);
     } catch (err: any) {
       console.error('Failed to fetch business unit heads:', err);
@@ -165,7 +167,7 @@ export default function EditProjectPage() {
 
     try {
       setSaving(true);
-      await api.put(`/projects/${projectId}`, {
+      await apiScoped.put(`/projects/${projectId}`, {
         name: formData.name,
         client: formData.client,
         description: formData.description,
@@ -173,6 +175,7 @@ export default function EditProjectPage() {
         status: formData.status,
         projectManager: formData.project_manager,
         businessUnitHead: formData.business_unit_head,
+        aiUsage: formData.ai_usage,
       });
 
       alert('Project updated successfully!');
@@ -188,7 +191,7 @@ export default function EditProjectPage() {
   const fetchOperations = async () => {
     try {
       setOperationsLoading(true);
-      const response = await api.get(`/projects/${projectId}/operations`);
+      const response = await apiScoped.get(`/projects/${projectId}/operations`);
       setOperations(response.data);
     } catch (err: any) {
       console.error('Failed to fetch operations:', err);
@@ -200,7 +203,7 @@ export default function EditProjectPage() {
   // Fetch specific month's operations data
   const fetchOperationsByMonth = async (month: number, year: number) => {
     try {
-      const response = await api.get(`/projects/${projectId}/operations/${month}/${year}`);
+      const response = await apiScoped.get(`/projects/${projectId}/operations/${month}/${year}`);
       const data = response.data;
       // Pre-fill form with existing data
       setOperationsForm({
@@ -266,7 +269,7 @@ export default function EditProjectPage() {
   const fetchValues = async () => {
     try {
       setValuesLoading(true);
-      const response = await api.get(`/projects/${projectId}/values`);
+      const response = await apiScoped.get(`/projects/${projectId}/values`);
       setValues(response.data);
     } catch (err: any) {
       console.error('Failed to fetch values:', err);
@@ -316,7 +319,7 @@ export default function EditProjectPage() {
   if (loading) {
     return (
       <>
-        <Navbar />
+        <Navbar mode="delivery" />
         <div className="min-h-screen bg-background flex items-center justify-center">
           <div className="text-xl text-secondary">Loading project...</div>
         </div>
@@ -327,7 +330,7 @@ export default function EditProjectPage() {
   if (error || !project) {
     return (
       <>
-        <Navbar />
+        <Navbar mode="delivery" />
         <div className="min-h-screen bg-background flex items-center justify-center">
           <div className="text-xl text-red-600">{error || 'Project not found'}</div>
         </div>
@@ -337,7 +340,7 @@ export default function EditProjectPage() {
 
   return (
     <>
-      <Navbar />
+      <Navbar mode="delivery" />
       <div className="min-h-screen bg-background">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           {/* Header */}
@@ -432,6 +435,19 @@ export default function EditProjectPage() {
                   rows={3}
                   className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-primary"
                   placeholder="Brief project description"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  AI
+                </label>
+                <textarea
+                  value={formData.ai_usage}
+                  onChange={(e) => setFormData({ ...formData, ai_usage: e.target.value })}
+                  rows={3}
+                  className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-primary"
+                  placeholder="How is AI used in this project"
                 />
               </div>
 

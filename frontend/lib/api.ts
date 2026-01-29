@@ -9,26 +9,35 @@ export const api = axios.create({
   },
 });
 
-// Add auth token to requests
+// Add selected PDM ID to requests only for delivery-scoped endpoints
 api.interceptors.request.use((config) => {
-  const token = localStorage.getItem('token');
-  if (token) {
-    config.headers.Authorization = `Bearer ${token}`;
+  // Check if this request should be scoped to the selected PDM
+  // Only add user ID if explicitly requested via a custom header
+  const shouldScopeToPDM = config.headers['x-scope-to-pdm'];
+
+  if (shouldScopeToPDM) {
+    const selectedPDM = localStorage.getItem('selectedPDM');
+    if (selectedPDM) {
+      const pdm = JSON.parse(selectedPDM);
+      config.headers['x-user-id'] = pdm.id;
+    }
+    // Remove the custom header so it's not sent to the server
+    delete config.headers['x-scope-to-pdm'];
   }
+
   return config;
 });
 
-// Handle auth errors
-api.interceptors.response.use(
-  (response) => response,
-  (error) => {
-    if (error.response?.status === 401) {
-      localStorage.removeItem('token');
-      localStorage.removeItem('user');
-      window.location.href = '/login';
-    }
-    return Promise.reject(error);
-  }
-);
+// Helper function to make PDM-scoped API calls (for Delivery module)
+export const apiScoped = {
+  get: (url: string, config = {}) =>
+    api.get(url, { ...config, headers: { ...config.headers, 'x-scope-to-pdm': 'true' } }),
+  post: (url: string, data?: any, config = {}) =>
+    api.post(url, data, { ...config, headers: { ...config.headers, 'x-scope-to-pdm': 'true' } }),
+  put: (url: string, data?: any, config = {}) =>
+    api.put(url, data, { ...config, headers: { ...config.headers, 'x-scope-to-pdm': 'true' } }),
+  delete: (url: string, config = {}) =>
+    api.delete(url, { ...config, headers: { ...config.headers, 'x-scope-to-pdm': 'true' } }),
+};
 
 export default api;

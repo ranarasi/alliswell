@@ -2,67 +2,69 @@
 
 import Link from 'next/link';
 import { useRouter, usePathname } from 'next/navigation';
-import { getUser, clearAuth } from '@/lib/auth';
 import { useEffect, useState } from 'react';
-import { User } from '@/types';
+import { usePDM } from '@/lib/pdmContext';
+import { api } from '@/lib/api';
 import Logo from './Logo';
 
-export default function Navbar() {
+interface PDM {
+  id: string;
+  name: string;
+  email: string;
+  role: string;
+}
+
+interface NavbarProps {
+  mode?: 'delivery' | 'admin';
+}
+
+export default function Navbar({ mode = 'delivery' }: NavbarProps) {
   const router = useRouter();
   const pathname = usePathname();
-  const [user, setUser] = useState<User | null>(null);
+  const { selectedPDM, setSelectedPDM } = usePDM();
+  const [pdms, setPdms] = useState<PDM[]>([]);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   useEffect(() => {
-    setUser(getUser());
-  }, []);
+    if (mode === 'delivery') {
+      fetchPDMs();
+    }
+  }, [mode]);
 
-  const handleLogout = () => {
-    clearAuth();
-    setMobileMenuOpen(false);
-    router.push('/login');
+  const fetchPDMs = async () => {
+    try {
+      const response = await api.get<PDM[]>('/auth/users?role=PDM');
+      setPdms(response.data);
+    } catch (error) {
+      console.error('Failed to fetch PDMs:', error);
+    }
   };
 
-  const getHomePage = () => {
-    if (user?.role === 'Admin' || user?.role === 'Practice Head') {
-      return '/dashboard';
-    } else if (user?.role === 'PDM') {
-      return '/pdm';
+  const handlePDMChange = (pdmId: string) => {
+    const pdm = pdms.find(p => p.id === pdmId);
+    if (pdm) {
+      setSelectedPDM(pdm);
+      // Stay on current page, just update the context
     }
-    return '/';
   };
 
   const closeMobileMenu = () => {
     setMobileMenuOpen(false);
   };
 
-  if (!user) return null;
-
   return (
     <nav className="bg-white shadow-sm border-b border-gray-200">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16">
           <div className="flex items-center">
-            <Link href={getHomePage()} className="flex items-center gap-2 text-lg sm:text-xl font-bold text-primary">
+            <Link href="/" className="flex items-center gap-2 text-lg sm:text-xl font-bold text-primary">
               <Logo size={28} />
               <span className="hidden sm:inline">AllIsWell</span>
               <span className="sm:hidden">AIW</span>
             </Link>
             {/* Desktop Menu */}
             <div className="hidden lg:ml-10 lg:flex lg:space-x-8">
-              {(user.role === 'Admin' || user.role === 'Practice Head') && (
-                <Link
-                  href="/dashboard"
-                  className={`transition-colors font-medium ${
-                    pathname === '/dashboard'
-                      ? 'text-primary border-b-2 border-primary'
-                      : 'text-secondary hover:text-text'
-                  }`}
-                >
-                  Dashboard
-                </Link>
-              )}
-              {user.role === 'PDM' && (
+              {mode === 'delivery' && (
                 <>
                   <Link
                     href="/pdm"
@@ -106,31 +108,63 @@ export default function Navbar() {
                   </Link>
                 </>
               )}
-              {user.role === 'Admin' && (
-                <Link
-                  href="/admin/projects"
-                  className={`transition-colors font-medium ${
-                    pathname === '/admin/projects'
-                      ? 'text-primary border-b-2 border-primary'
-                      : 'text-secondary hover:text-text'
-                  }`}
-                >
-                  Manage Projects
-                </Link>
+              {mode === 'admin' && (
+                <>
+                  <Link
+                    href="/dashboard"
+                    className={`transition-colors font-medium ${
+                      pathname === '/dashboard'
+                        ? 'text-primary border-b-2 border-primary'
+                        : 'text-secondary hover:text-text'
+                    }`}
+                  >
+                    Dashboard
+                  </Link>
+                  <Link
+                    href="/admin/projects"
+                    className={`transition-colors font-medium ${
+                      pathname === '/admin/projects'
+                        ? 'text-primary border-b-2 border-primary'
+                        : 'text-secondary hover:text-text'
+                    }`}
+                  >
+                    Manage Projects
+                  </Link>
+                </>
               )}
             </div>
           </div>
-          {/* Desktop User Info & Logout */}
+          {/* Desktop Right Side */}
           <div className="hidden lg:flex items-center space-x-4">
-            <span className="text-sm text-secondary">
-              {user.name} ({user.role === 'PDM' ? 'DD' : user.role})
-            </span>
-            <button
-              onClick={handleLogout}
-              className="px-4 py-2 text-sm bg-gray-100 hover:bg-gray-200 rounded-md transition-colors"
-            >
-              Logout
-            </button>
+            {mode === 'delivery' && selectedPDM && (
+              <>
+                <select
+                  value={selectedPDM.id}
+                  onChange={(e) => handlePDMChange(e.target.value)}
+                  className="px-3 py-1.5 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
+                >
+                  {pdms.map((pdm) => (
+                    <option key={pdm.id} value={pdm.id}>
+                      {pdm.name}
+                    </option>
+                  ))}
+                </select>
+                <Link
+                  href="/admin/projects"
+                  className="px-4 py-2 text-sm font-medium text-primary hover:text-blue-600 transition-colors"
+                >
+                  Admin →
+                </Link>
+              </>
+            )}
+            {mode === 'admin' && (
+              <Link
+                href="/pdm"
+                className="px-4 py-2 text-sm font-medium text-primary hover:text-blue-600 transition-colors"
+              >
+                ← Delivery
+              </Link>
+            )}
           </div>
 
           {/* Mobile menu button */}
@@ -159,20 +193,7 @@ export default function Navbar() {
       {mobileMenuOpen && (
         <div className="lg:hidden border-t border-gray-200">
           <div className="px-2 pt-2 pb-3 space-y-1">
-            {(user.role === 'Admin' || user.role === 'Practice Head') && (
-              <Link
-                href="/dashboard"
-                onClick={closeMobileMenu}
-                className={`block px-3 py-2 rounded-md text-base font-medium ${
-                  pathname === '/dashboard'
-                    ? 'bg-primary text-white'
-                    : 'text-gray-700 hover:bg-gray-100'
-                }`}
-              >
-                Dashboard
-              </Link>
-            )}
-            {user.role === 'PDM' && (
+            {mode === 'delivery' && (
               <>
                 <Link
                   href="/pdm"
@@ -220,32 +241,68 @@ export default function Navbar() {
                 </Link>
               </>
             )}
-            {user.role === 'Admin' && (
-              <Link
-                href="/admin/projects"
-                onClick={closeMobileMenu}
-                className={`block px-3 py-2 rounded-md text-base font-medium ${
-                  pathname === '/admin/projects'
-                    ? 'bg-primary text-white'
-                    : 'text-gray-700 hover:bg-gray-100'
-                }`}
-              >
-                Manage Projects
-              </Link>
+            {mode === 'admin' && (
+              <>
+                <Link
+                  href="/dashboard"
+                  onClick={closeMobileMenu}
+                  className={`block px-3 py-2 rounded-md text-base font-medium ${
+                    pathname === '/dashboard'
+                      ? 'bg-primary text-white'
+                      : 'text-gray-700 hover:bg-gray-100'
+                  }`}
+                >
+                  Dashboard
+                </Link>
+                <Link
+                  href="/admin/projects"
+                  onClick={closeMobileMenu}
+                  className={`block px-3 py-2 rounded-md text-base font-medium ${
+                    pathname === '/admin/projects'
+                      ? 'bg-primary text-white'
+                      : 'text-gray-700 hover:bg-gray-100'
+                  }`}
+                >
+                  Manage Projects
+                </Link>
+              </>
             )}
           </div>
           <div className="pt-4 pb-3 border-t border-gray-200">
-            <div className="px-4 mb-3">
-              <div className="text-base font-medium text-gray-800">{user.name}</div>
-              <div className="text-sm text-gray-500">{user.role === 'PDM' ? 'DD' : user.role}</div>
-            </div>
+            {mode === 'delivery' && selectedPDM && (
+              <div className="px-4 mb-3">
+                <select
+                  value={selectedPDM.id}
+                  onChange={(e) => handlePDMChange(e.target.value)}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md"
+                >
+                  {pdms.map((pdm) => (
+                    <option key={pdm.id} value={pdm.id}>
+                      {pdm.name}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            )}
             <div className="px-2">
-              <button
-                onClick={handleLogout}
-                className="block w-full text-left px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-100"
-              >
-                Logout
-              </button>
+              {mode === 'delivery' && (
+                <Link
+                  href="/admin/projects"
+                  onClick={closeMobileMenu}
+                  className="block w-full text-left px-3 py-2 rounded-md text-base font-medium text-primary hover:bg-gray-100"
+                >
+                  Go to Admin →
+                </Link>
+              )}
+              {mode === 'admin' && (
+                <Link
+                  href="/pdm"
+                  onClick={closeMobileMenu}
+                  className="block w-full text-left px-3 py-2 rounded-md text-base font-medium text-primary hover:bg-gray-100"
+                >
+                  ← Back to Delivery
+                </Link>
+              )}
             </div>
           </div>
         </div>

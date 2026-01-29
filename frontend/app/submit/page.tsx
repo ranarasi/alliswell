@@ -1,11 +1,13 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { api } from '@/lib/api';
+import { useRouter } from 'next/navigation';
+import { apiScoped } from '@/lib/api';
 import { Project, StatusColor } from '@/types';
 import Navbar from '@/components/Navbar';
 
 export default function SubmitStatusPage() {
+  const router = useRouter();
   const [projects, setProjects] = useState<Project[]>([]);
   const [selectedProject, setSelectedProject] = useState('');
   const [weekEndingDate, setWeekEndingDate] = useState('');
@@ -61,7 +63,7 @@ export default function SubmitStatusPage() {
 
   const fetchProjects = async () => {
     try {
-      const response = await api.get<Project[]>('/projects?status=Active');
+      const response = await apiScoped.get<Project[]>('/projects?status=Active');
       setProjects(response.data);
     } catch (error) {
       console.error('Failed to fetch projects:', error);
@@ -75,7 +77,7 @@ export default function SubmitStatusPage() {
     }
 
     try {
-      const response = await api.get(`/status/previous/${selectedProject}`);
+      const response = await apiScoped.get(`/status/previous/${selectedProject}`);
       const previous = response.data;
       setOverallStatus(previous.overall_status);
       setAllIsWell(previous.all_is_well);
@@ -93,7 +95,7 @@ export default function SubmitStatusPage() {
 
     setAutoSaving(true);
     try {
-      await api.post('/status', {
+      await apiScoped.post('/status', {
         projectId: selectedProject,
         weekEndingDate,
         overallStatus,
@@ -117,7 +119,7 @@ export default function SubmitStatusPage() {
     setLoading(true);
 
     try {
-      await api.post('/status', {
+      await apiScoped.post('/status', {
         projectId: selectedProject,
         weekEndingDate,
         overallStatus,
@@ -153,7 +155,7 @@ export default function SubmitStatusPage() {
 
   return (
     <div className="min-h-screen bg-background">
-      <Navbar />
+      <Navbar mode="delivery" />
       <div className="max-w-4xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
         <h1 className="text-3xl font-bold mb-6">Submit Weekly Status</h1>
 

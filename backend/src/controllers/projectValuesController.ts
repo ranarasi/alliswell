@@ -1,6 +1,44 @@
 import { Request, Response } from 'express';
 import pool from '../database/db';
 
+// Get all values across all projects with optional date filtering
+export const getAllValues = async (req: Request, res: Response) => {
+  try {
+    const { fromDate, toDate } = req.query;
+
+    let query = `
+      SELECT pv.*,
+             p.name as project_name,
+             p.client,
+             u.name as submitted_by_name
+      FROM project_values pv
+      LEFT JOIN projects p ON pv.project_id = p.id
+      LEFT JOIN users u ON pv.submitted_by = u.id
+      WHERE 1=1
+    `;
+
+    const params: any[] = [];
+
+    if (fromDate) {
+      params.push(fromDate);
+      query += ` AND pv.created_at >= $${params.length}`;
+    }
+
+    if (toDate) {
+      params.push(toDate);
+      query += ` AND pv.created_at <= $${params.length}`;
+    }
+
+    query += ' ORDER BY pv.created_at DESC';
+
+    const result = await pool.query(query, params);
+    res.json(result.rows);
+  } catch (error) {
+    console.error('Error fetching all values:', error);
+    res.status(500).json({ message: 'Failed to fetch values' });
+  }
+};
+
 // Get all values for a project
 export const getProjectValues = async (req: Request, res: Response) => {
   try {

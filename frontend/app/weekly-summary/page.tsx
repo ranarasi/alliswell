@@ -2,8 +2,8 @@
 
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import api from '@/lib/api';
-import { getUser } from '@/lib/auth';
+import { apiScoped } from '@/lib/api';
+import { usePDM } from '@/lib/pdmContext';
 import Navbar from '@/components/Navbar';
 
 interface ProjectStatus {
@@ -20,7 +20,7 @@ interface ProjectStatus {
 
 export default function WeeklySummaryPage() {
   const router = useRouter();
-  const user = getUser();
+  const { selectedPDM } = usePDM();
   const [weekEndingDates, setWeekEndingDates] = useState<string[]>([]);
   const [selectedWeek, setSelectedWeek] = useState<string>('');
   const [projectStatuses, setProjectStatuses] = useState<ProjectStatus[]>([]);
@@ -28,17 +28,17 @@ export default function WeeklySummaryPage() {
   const [summaryGenerated, setSummaryGenerated] = useState(false);
 
   useEffect(() => {
-    if (!user || user.role !== 'PDM') {
-      router.push('/login');
+    if (!selectedPDM) {
+      router.push('/');
       return;
     }
     fetchWeekEndingDates();
-  }, [router]);
+  }, [selectedPDM, router]);
 
   const fetchWeekEndingDates = async () => {
     try {
       // Fetch all statuses to get unique week ending dates
-      const response = await api.get('/status');
+      const response = await apiScoped.get('/status');
       const statuses = response.data;
       console.log('Fetched statuses for week dates:', statuses);
 
@@ -89,7 +89,7 @@ export default function WeeklySummaryPage() {
     try {
       setLoading(true);
       // Fetch all statuses for the selected week
-      const response = await api.get(`/status?weekEndingDate=${selectedWeek}`);
+      const response = await apiScoped.get(`/status?weekEndingDate=${selectedWeek}`);
       console.log('API Response:', response.data);
 
       // Map the response to match our interface
@@ -179,7 +179,7 @@ export default function WeeklySummaryPage() {
 
   return (
     <>
-      <Navbar />
+      <Navbar mode="delivery" />
       <div className="min-h-screen bg-background">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           {/* Header */}
