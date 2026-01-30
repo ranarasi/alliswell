@@ -1,0 +1,926 @@
+client,date,value
+Cision,Nov-25,"Account : Cision
+Project name: Cision PRN - Engineering Enablement
+Month and year: Nov 2025
+Key contributors: Rakesh Achar
+Category / GenAI: GenAI
+Category Description: PixelSense AI
+Problem statement: Organizations manage large volumes of image and video assets, yet existing search capabilities rely on manual tagging and exact keyword matches. This results in low search accuracy, poor discoverability, and productivity loss. An AI-powered, semantic search solution is required to improve asset utilization and user efficiency.
+Value solution (Mention LLMs, Tools used): PixelSense AI redefines multimedia search by letting users find images and videos using natural language, powered by the semantic intelligence of Google Vertex AI (Gemini).?
+?
+Reactive
+/Proactive: Proactive
+Impact: Order Processing duration reduced by 25% due to rapid selection of images by customers 
+
+Added to Q1 2026 Backlog
+Accion team Contribution: Idea, Implementation and presented by Accion Team.
+Link to demo video of solution (if any): PixcelSenseAI.mp4"
+Cision,Nov-25,"Account : Cision
+Project name: Cision PRN - OMC 2.0
+Month and year: Nov 2025
+Key contributors: Ravi Numboori, Debashis Mondal, Somesh Patel, Vinayak Bagalkoti
+Category / GenAI: GenAI
+Category Description: Ampligent
+Problem statement: Customer support and sales teams spend significant time responding to repetitive queries related to product details, pricing, and order status. Existing channels lack instant, self-service capabilities, leading to increased operational effort and slower response times. An AI-assisted chat solution is required to improve response efficiency, enhance user experience, and reduce dependency on manual support.
+Value solution (Mention LLMs, Tools used): Ampligent is an AI-assisted chat feature for the Amplify application that can answer queries about Amplify
+products, pricing, and customer order information. It is built using Google Conversational Agents.?
+Reactive
+/Proactive: Proactive
+Impact: Personalized product recommendation leading to upsell revenue increase
+
+Added to Q1 2026 Backlog
+Accion team Contribution: Idea and presented by Cision. Implemented by Accion.
+Client Appreciation (if any): Idea was nominated as 'Crowd Favourite - Winner'
+Link to demo video of solution (if any): Ampligent.mp4"
+Cision,Nov-25,"Account : Cision
+Project name: Cision
+Month and year: Dec 2024
+Key contributors: Ravi Numboori
+
+Category / GenAI: Gen AI
+Category Description: Raw content converted to a Structured PR Article for Preview & Approval
+Problem statement: Customers send required article content and often had to wait for the backend editorial team to manually process their press releases before they could see a preview for further corrections. Any missing critical sections (e.g., headline, dateline, contact information) were only identified during editorial review leading to further delay in publication.
+Value solution (Mention LLMs, Tools used): Real-Time Press Release Preview and Validation
+Extract Word document content to Markdown Format - (custom Development)
+Use Google Gemini to parse Markdown content and identify key sections (Headline, sub headline, body, dateline, contact info).
+Generate JSON output from AI and convert to HTML preview for real-time validation.
+Expose an API with above functionality to consume in the UI.
+Reactive
+/Proactive: Proactive
+Impact: Increase engagement and ready reccommendation reduces need for more content readiness from customers
+Accion team Contribution: Research on Vertex AI"
+Cision,Nov-25,"Account : Cision
+Project name: Cision
+Month and year: Dec 2024
+Key contributors: Thiraviaraj
+Category / GenAI: Gen AI
+Category Description: Product Selection Recommendations (Geo, Subject, Industry)
+Problem statement: Scenario:
+Customers struggled to understand and select the right products for their press releases, such as US1 for nationwide coverage or Social for social media distribution. There was limited guidance to help them make informed choices to maximize reach and visibility.
+Value solution (Mention LLMs, Tools used): Product Recommendations using AI
+Train a machine learning model using historical press release data to analyze viewership and product performance and deployed in Vertex AI.
+Expose the model through an API developed by the MLDC team.
+Integrate the API into the application to display AI-driven product recommendations
+Reactive
+/Proactive: Proactive
+Impact: Reduced drop off and increased user satisfaction
+Accion team Contribution: Implementation of the UI only"
+LSAC,Nov-25,"Account : LSAC
+Project name: LSAC
+Month and year: Nov-24
+Key contributors: Abhinav, Shishir
+Category / GenAI: AI/ML
+Category Description: Enrolment predictions
+Problem statement: LSAC aims to predict the likelihood of a student enrolling in a specific college once admitted. Additionally, it seeks to optimize the scholarship amount to enhance the chances of the student enrolling at that college.
+Value solution (Mention LLMs, Tools used): Techniques used : 
+Logistic Regression, Random Forest, XG Boost.
+Attributes : High LSAT Score, CGPA, Gender, Scholarship, Distance, Type Long, Ethnicity, Instate, UG_Instate
+Reactive
+/Proactive: Reactive
+Impact: Forecasting student enrollment in college and predicting scholarship opportunities.
+Accion team Contribution: This is helping us in a long term to find the type of test takers, improved assessments and new students enrolling - A great start and lot more to come.
+Client Appreciation (if any): https://accionglobal-my.sharepoint.com/:p:/g/personal/shishir_shrivastava_accionlabs_com/IQAAH6prGXUsTLClWRub2Qj_ATo32LKO8shcKK7z-Zy9BeU?e=XOI9wX
+
+
+Link to demo video of solution (if any): https://accionglobal-my.sharepoint.com/:v:/g/personal/shishir_shrivastava_accionlabs_com/IQA2zDgWH2UbToXOvqt7PqELAUc_W1nE4ucIH1bIdCdbxS8?nav=eyJyZWZlcnJhbEluZm8iOnsicmVmZXJyYWxBcHAiOiJPbmVEcml2ZUZvckJ1c2luZXNzIiwicmVmZXJyYWxBcHBQbGF0Zm9ybSI6IldlYiIsInJlZmVycmFsTW9kZSI6InZpZXciLCJyZWZlcnJhbFZpZXciOiJNeUZpbGVzTGlua0NvcHkifX0&e=lpGbjp"
+LSAC,Nov-25,"Account : LSAC
+Project name: LSAC
+Month and year: Dec-24
+Key contributors: Ganesh Nagarkoti, Saurabh Deotale,
+Shishir
+Category / GenAI: GenAI
+Category Description: AI-Powered Web Accessibility Audits
+Problem statement: Manual testing and rule-based tools catch visible issues, but only automated DOM-level auditing provides exhaustive, contextual analysis to uncover hidden, structural, and systemic accessibility problems at scale.
+Value solution (Mention LLMs, Tools used): Accessibility automated report generation using :
+Ollama, WCAG guidelines
+Reactive
+/Proactive: Proactive
+Impact: * Reduces manual effort and human error?
+* Detects hidden and structural accessibility issues?
+* Flexible for local, CI/CD, and enterprise usage
+Accion team Contribution: R&D done from Accessibility team for Accessibility Automation as a primary constraint
+Client Appreciation (if any): https://accionglobal-my.sharepoint.com/:p:/g/personal/shishir_shrivastava_accionlabs_com/IQAXLP0GjDiGQb56onNsBNJbAflvABYTBRgd0osseKjP36k?e=PZjDSg
+Link to demo video of solution (if any): https://accionglobal-my.sharepoint.com/:v:/g/personal/shishir_shrivastava_accionlabs_com/IQBZiucMhx0xSq_bH_EH8Mu_AZElvSU5y2s1nddVbsAfwd0?nav=eyJyZWZlcnJhbEluZm8iOnsicmVmZXJyYWxBcHAiOiJPbmVEcml2ZUZvckJ1c2luZXNzIiwicmVmZXJyYWxBcHBQbGF0Zm9ybSI6IldlYiIsInJlZmVycmFsTW9kZSI6InZpZXciLCJyZWZlcnJhbFZpZXciOiJNeUZpbGVzTGlua0NvcHkifX0&e=01zbQm"
+LSAC,Nov-25,"Account : LSAC
+Project name: LSAC
+Month and year: Dec-24
+Key contributors: Abhinav, Chandan Gowda, Shishir
+Category / GenAI: GenAI
+Category Description: Healthcare Agents
+
+(Looks interesting, pls add more details on the agents, workflow details)
+Problem statement: End-to-End Healthcare solution agents
+Value solution (Mention LLMs, Tools used): Microsoft Copilot studio, Google Copilot studio
+Reactive
+/Proactive: Proactive
+Impact: * Reduces manual efforts on operations
+Accion team Contribution: * Understood the problems/usecases on helathcare
+* Intelligent, AI-Driven assistants which can automate workflows, provide real-time support to patients and staff and enable haelthcare team to focus on quality care rather than operations.
+Client Appreciation (if any): https://accionglobal-my.sharepoint.com/:p:/g/personal/shishir_shrivastava_accionlabs_com/IQAJMLXKnKkfRYTDPf5vF0J_AUJw_0MQaRj0EYzg0WIwfl0?e=sFja5g
+Link to demo video of solution (if any): https://accionglobal-my.sharepoint.com/:v:/g/personal/shishir_shrivastava_accionlabs_com/IQBNmHzr0OtoTJaH9VqCS_oyAbntjZAMPbdGuf6J6eUOHu8?nav=eyJyZWZlcnJhbEluZm8iOnsicmVmZXJyYWxBcHAiOiJPbmVEcml2ZUZvckJ1c2luZXNzIiwicmVmZXJyYWxBcHBQbGF0Zm9ybSI6IldlYiIsInJlZmVycmFsTW9kZSI6InZpZXciLCJyZWZlcnJhbFZpZXciOiJNeUZpbGVzTGlua0NvcHkifX0&e=JHuOHO"
+LSAC,Nov-25,"Account : LSAC
+Project name: LSAC
+Month and year: Dec-24
+Key contributors: Phurkan Ali
+Category / GenAI: GenAI
+Category Description: Program Agents
+Problem statement: Program Agents which can :
+* Automate the meetings
+* Keep the repository updated with session recordings, transcripts, Attendance etc
+* Throw all the bots out of meeting and remove their attendances.
+* Removing manual processes of any SM
+Value solution (Mention LLMs, Tools used): Ollama/Gemini
+Reactive
+/Proactive: Proactive
+Impact: Reduces management efforst in doing manual works.
+Accion team Contribution: Created bots to fix the problems"
+LSAC,Nov-25,"Account : LSAC
+Project name: LSAC
+Month and year: Dec-24
+Key contributors: Pavan Kumarh
+Category / GenAI: AI
+Category Description: SRE Agent
+Problem statement: Limited real-time visibility into LSAT Production health for Multiple Choice (MC) and Written Test (WS) exam user flows.
+Value solution (Mention LLMs, Tools used): Implemented synthetic automation for MC & WS flows; JSON results stored as tables in Azure Log Analytics Workspace, queried via KQL, and integrated into Grafana dashboards. Tools: Selenium, Azure Log Analytics Workspace, KQL, Grafana.
+Reactive
+/Proactive: Proactive
+Impact: Faster issue detection, reduced MTTR, and improved production reliability.
+Accion team Contribution: Built synthetic scripts, enabled JSON-to-table ingestion in Azure Log Analytics Workspace, and integrated dashboards in Grafana.
+Client Appreciation (if any): Client appreciated improved observability and proactive monitoring."
+LSAC,Nov-25,"Account : LSAC
+Project name: LSAC
+Month and year: Dec-24
+Key contributors: Aditya Mukkawar
+Category / GenAI: AI
+Category Description: Report generation
+Problem statement: The report generation API was fetching all school records and calculating job scores at runtime, resulting in very high Cosmos DB RU consumption and slow response times. This API is used in ~80% of user interactions, directly impacting user experience.
+Value solution (Mention LLMs, Tools used): Redesigned the flow to pre-calculate job scores for all schools during onboarding and store them in Cosmos DB. Introduced a new getUserJobScores query to fetch precomputed data instead of recalculating at runtime. Maintained a school version in the job score document to trigger recalculation when school data changes.
+Tools: Azure Cosmos DB, .NET APIs, Application Insights for RU and performance analysis.
+Reactive
+/Proactive:  Reactive
+Impact: RU consumption reduced, PI response time improved by approximately 11x, Significant performance improvement for an API handling ~80% of LST user traffic
+Accion team Contribution: Performed analysis to identify high RU usage, implemented the required changes, and validated the performance improvements using telemetry and logs."
+LeadVenture,Nov-25,"Account : LeadVenture
+Project name: LeadVenture
+Month and year: Dec-25
+Key contributors: Subramani Jyoti,Ashish Gupta, Avinash Sharma , Sunil Ganar
+Category / GenAI: UX  & Automation
+Category Description: 360 degree visualization  using AR, VR, MR and AI
+Problem statement: Today, most buyers make  vehicle procurement decisions using 2D images/pictures on websites. This is not immersive, and does not give them a real experience of how the actual vehicle looks. Our solution, based on  AI, AR, MR, & VR is built to provide true, immersive 360 degree visualization of vehicles in realtime, for potential buyers to take a more educated call when buying pre-owned vehicles
+Value solution (Mention LLMs, Tools used): - Virtual Reality Devices
+- AI
+- Mixed Reality
+- Augmented Reality
+This solution provides a real-time look and feel of the vehicle, and helps the buyer experience the vehicle virtually 
+Reactive
+/Proactive: Proactive
+Impact: - Quick Buying decisions - reduce the need for multiple visits to the showroom for decisioning
+- Father reach - Dealers can sell vehile to buyers in other states/counties, helping reduce inventory faster
+- Buyers can see every nook and corner and cen drilldown quickly for buying decisions
+Accion team Contribution: Complete conceptualization and delivery by Accion Team
+Client Appreciation (if any): This was demoinstrated to the client when they were in the Accion facilities, and this received glowing tributes. "
+LeadVenture,Nov-25,"Account : LeadVenture
+Project name: LeadVenture
+Month and year: Dec-25
+Key contributors: Deepesh Shah, Harish Reddy
+Category / GenAI: Migration, Upgrade
+Category Description: Elastic Search to OpenSearch Upgrade
+Scalable, reusable, zero-downtime framework
+Problem statement: Elasticsearch 2.3 ?reached end-of-life?
+Security and operation risks?
+2400+ dealers, 750+ GB data?
+Zero down time business requirement.? (100% uptime)
+Value solution (Mention LLMs, Tools used): Migration from Elasticsearch 2.3 to OpenSearch 2.11?
+AWS Cloud Platform?
+Generic ETL based migration framework?
+Improved security, performance and cost?
+Reusable ETL framework?
+Batch based dealer migration?
+Parallel dual-run architecture?
+Snapshot-driven rollback.?
+Reactive
+/Proactive: Reactive
+
+Impact: We can easily extend our ETL
+process and can make it more
+generic to transfer data from
+any source to any destination.
+Accion team Contribution: Complete conceptualization and delivery by Accion Team
+Client Appreciation (if any): This was demoinstrated to the client when they were in the Accion facilities, and this received glowing tributes. "
+LeadVenture,Nov-25,"Account : LeadVenture
+Project name: LeadVenture - Ignition
+Month and year: Jul-25
+Key contributors: Midhun
+Category / GenAI: Architecture
+Category Description: Implement Circuit breaker Pattern in APIs
+Problem statement: There was no Retry mechanish / rate limiting in customer facing APIs hence migrated existing API code to circuit breaker pattern to introduce Retry mechanish / rate limiting in customer facing APIs
+Value solution (Mention LLMs, Tools used): Using circuit breaker pattern and Polly library
+Reactive
+/Proactive: Proactive 
+Impact: Operational efficiency 
+Accion team Contribution: Problem is reported by Client, but solution is proposed by Accion team"
+LeadVenture,Nov-25,"Account : LeadVenture
+Project name: LeadVenture - ML
+Month and year: Jun-25
+Key contributors: Prathmesh, Trupti
+Category / GenAI: New feature
+Category Description: Tech Debt/Modernization
+
+LeadVenture has two separate applications for VIN Decoding - one for Retail clients and the other for Wholesale clients.  The Accion Team recommended building APIs that check the two databases (as using a single database is not an option currently), when new VINs are created or updates were done. This has lead to huge time-savings (as the dealer does not have to check multiple places) and productivity and financial gains, leading to added revenue. Fetching the VIN data from a 3rd party data provider cost LV money, and this code helped save money by avoiding multiple hits to the 3rd party database. The VIN data was also reused helping improve revenue and margins.
+Problem statement: We requests were ckecking with WholeSale & Retail servers for VIN details
+Value solution (Mention LLMs, Tools used): VIN decoding, before ckecking with WholeSale & Retail server. Created new API to check the existing DB before hitting providers
+Reactive
+/Proactive: Reactive
+Impact: It saves lot of cost due to reduced calls to wholesale and retail servers
+Accion team Contribution: Problem statement came from LV but solution and implemention came from Accion team
+Client Appreciation (if any): Verbal"
+LeadVenture,Nov-25,"Account : LeadVenture
+Project name: LeadVenture - PSM
+Month and year: Jul-25
+Key contributors: Alok, Chandan, Manikanandan
+Category / GenAI: Performance Optimization
+Category Description: Tech Debt/Modernization
+Problem statement: Lead hunter website landing page was taking about ~3 minutes to load
+Value solution (Mention LLMs, Tools used): Earlier, the data was being calculated by joining multiple tables, some of which were located in different databases. This approach was inefficient and impacted performance.
+
+To address this, we proposed running a scheduled job that fetches and consolidates the required data every 4 hours. The client application will then retrieve the information directly from this prefetched table, ensuring faster response times and reduced load on the underlying databases.
+
+Implemented new architecture with CQRS pattern which gets its data from a flat seprate table with prefectched value. It works as deffered fetch as volume of data is in 200 Millions. The solution reduced the load time to less than 3 seconds.
+Reactive
+/Proactive: Reactive
+Impact: Performance improved from 3 minutes to 3 seconds  a 1000% improvement in response time.
+Accion team Contribution: Problem is reported by Client, but solution is proosed by Accion team
+Client Appreciation (if any): AEM team already got appreciation from Tia (Product manager) and Damon (LV manager)"
+LeadVenture,Nov-25,"Account : LeadVenture
+Project name: LeadVenture - PSM - DRS
+Month and year: Jul-25
+Key contributors: Kiran
+Category / GenAI: Architecture
+Category Description: Process Improvement 
+Problem statement: Currently, the user deletion service is not restricted to a single execution. It may run concurrently across multiple instances of the by-users-service, which is not the intended behavior.
+Value solution (Mention LLMs, Tools used): At any given time, only one instance of the user service should acquire the distributed lock and perform the stale user deletion.
+All other instances should skip the deletion logic if the lock is already held. Redis is used as the distributed locking mechanism to coordinate this behavior.
+
+The solution implemented ensures that the stale user deletion logic within the user service executes only once across multiple service instances in any given environment. This is to prevent race conditions and ensure data consistency in a microservices architecture.
+Reactive
+/Proactive: Reactive
+Impact: Introduces a dependency on Redis for distributed locking.
+
+No impact on other services or APIs.
+
+No changes to user-facing functionality or data models.
+
+Ensures smooth functioning of user deletion without deadlocks or race conditions.
+
+Provides system predictability:
+
+Guarantees only one service instance performs the deletion at a time.
+
+Enables easy time tracking and log verification.
+Accion team Contribution: Problem statement came from LV but solution and implemention came from Accion team"
+LeadVenture,Nov-25,"Account : LeadVenture
+Project name: LeadVenture - PSM - DRS
+Month and year: Jul-25
+Key contributors: Anupeksha
+Category / GenAI: Architecture
+Category Description: Automation of email testing to enable large-scale enterprise emails using a low-cost 3rd party email service, helping the client to reduce cost and improve efficiency.
+Problem statement: Email notifications were tested manually, which was slow, error-prone, and costly to scale. Market tools for automation were too expensive.
+Value solution (Mention LLMs, Tools used): Developed a POC using the free gmail-tester plugin to automate Gmail notification checks and validate email subjects. The POC code is ready, and test case implementation is planned for Feb 2026
+Reactive
+/Proactive: Reactive
+Impact: Cut manual effort, improved accuracy, and avoided licensing costs by leveraging an open-source solution.
+Accion team Contribution: Both problem identification & solution is proosed by Accion team
+Client Appreciation (if any): Discussions are in progress with LV team."
+LeadVenture,Nov-25,"Account : LeadVenture
+Project name: LeadVenture - PSM
+Month and year: Aug-25
+Key contributors: Alok, Navanit
+Category / GenAI: Performance Optimization
+Category Description: Tech debt/Modernization
+Problem statement: Email sending feature is crashing at peak hours due to bottleneck of large volume table insertion
+Value solution (Mention LLMs, Tools used): The PSM application uses SendGrid for sending emails. To track these emails, we log each record into a normalized table which also supports various reporting needs. Currently, this table holds ~700 million records.
+
+The challenge was that direct insertions into this table were taking ~10 minutes for 5,000 records, and in some cases, the process would even crash due to the high indexing overhead.
+
+Solution implemented:
+
+Introduced a staging table without indexes to handle incoming inserts efficiently.
+
+Data is then moved in batches from this staging table to the original normalized table.
+
+This approach has significantly reduced insertion time and improved system stability for large-scale email tracking.
+Reactive
+/Proactive: Proactive 
+Impact: Bottleneck is removed and email sending for 30000 records takes minutes only, Exponential improvment
+Accion team Contribution: Both problem identification & solution is proosed by Accion team
+Client Appreciation (if any): In Progress, planned Production date in September."
+BrightQuery,Nov-25,"Account : BrightQuery
+Project name: BrightQuery
+Month and year: Oct-26
+Key contributors: Aman, Mukunda, Eswar
+Category / GenAI: GenAI
+Category Description: Industry Prediction
+Problem statement: Automated Industrial Classification via RAG-Enhanced LLMs This system automates the prediction of industry classifications based on company descriptions. By utilizing Retrieval-Augmented Generation (RAG) to query the 2022 Census NAICS database, the system provides Mistral 7B with precise context to determine the most accurate NAICS code.
+Value solution (Mention LLMs, Tools used): Mistral-7B, Ollama
+Reactive
+/Proactive: Proactive
+Impact: Improving Data Quality and Coverage ""This process focuses on cleansing datasets by removing inaccurate industry codes and augmenting incomplete profiles with AI-verified NAICS 2022 designations.""
+Accion team Contribution: End-to-End"
+BrightQuery,Nov-25,"Account : BrightQuery
+Project name: BrightQuery
+Month and year: Oct-26
+Key contributors: Imran
+Category / GenAI: GenAI
+Category Description: Predicting the Legal Structure and Active/Inactive Status of Organizations Globally 
+Problem statement: This work was developed using prompts to analyze and predict an organizations legal structure and operational status (active or inactive) across global jurisdictions. AI-driven insights were used to improve accuracy, consistency, and scalability in legal and business intelligence analysis.
+Value solution (Mention LLMs, Tools used): ChatGPT; Prompt Engineering
+Reactive
+/Proactive: Proactive
+Impact: Using ChatGPT significantly improved the projects efficiency and quality by accelerating research, refining problem definition, and enhancing prediction logic for legal structure and active/inactive status. It reduced manual effort, improved consistency across global data sources, and enabled faster iteration, resulting in more accurate, scalable, and well-documented outcomes.
+Accion team Contribution: End-to-End"
+BrightQuery,Nov-25,"Account : BrightQuery
+Project name: BrightQuery
+Month and year: Dec-26
+Key contributors: Vineeta,
+Sushil
+Category / GenAI: GenAI
+Category Description: QA Automation
+Problem statement: Automation 1:
+Automated the monthy regression checks for Factset & T2C. This helps in reducing the regression time as well helps to catch the bugs, record the execution logs & generate the report. This helps in Analysis & provides insight in the scope of enhancement & improvisation.
+
+Automation 2:
+Playwright has been greatly explored for scraping the web & to fetch the data. One of the prominent use of Playwright has been in building the Family tree of an org globally. This will help establish a concert data including the family tree of the org & helps in providing the mapping of the data
+Value solution (Mention LLMs, Tools used): Python, Pytest & Playwright
+Reactive
+/Proactive: Proactive
+Impact: Automation helps in various ways right from execution to greater level of analysis post execution with a clear capture of logs, screenshots & reports
+Accion team Contribution: End-to-End
+Client Appreciation (if any): Recognized for these approach & solutions. Been greatly appreciated"
+NPI,Nov-25,"Account : NPI
+Project name: NPI
+Month and year: 25-Oct
+Key contributors: Saket, Pushkar
+Category / GenAI: Platform / Security
+Category Description: Auth0 Tenant Data Synchronization
+Problem statement: Multiple Auth0 tenants across environments led to inconsistent user data, configuration drift, and manual overhead during environment syncs.
+Value solution (Mention LLMs, Tools used): Implemented automated Auth0 tenant data sync scripts to ensure consistent users, roles, permissions, and configurations across environments.
+Reactive
+/Proactive: Proactive
+Impact: Reduced configuration errors, faster environment readiness, and improved security posture.
+Accion team Contribution: Designed and implemented by Engineering"
+NPI,Nov-25,"Account : NPI
+Project name: NPI
+Month and year: 25-Nov
+Key contributors: Pushkar
+Category / GenAI: Engineering Enablement / SDLC
+Category Description: Script for Code Review Automation
+
+(what tools were used - pls list)
+Problem statement: Manual code reviews were time-consuming and inconsistent, leading to delayed feedback and potential quality gaps.
+Value solution (Mention LLMs, Tools used): Developed reusable scripts to automate static code analysis, enforce coding standards, and highlight potential issues before PR reviews.
+Reactive
+/Proactive: Proactive
+Impact: Improved code quality, reduced review cycle time, and increased developer productivity.
+Accion team Contribution: Designed and implemented by Engineering"
+NPI,Nov-25,"Account : NPI
+Project name: NPI
+Month and year: 25-Apr
+Key contributors: Pushkar
+Category / GenAI: Platform / Cloud Utilities  / SDLC
+Category Description: AWS Utility Tooling
+Problem statement: Engineers lacked a standardized way to manage and inspect AWS resources, leading to repetitive manual tasks and operational inefficiencies.
+Value solution (Mention LLMs, Tools used): Built internal AWS utility tools to simplify common operational tasks such as resource inspection, cleanup, and environment validation.
+Reactive
+/Proactive: Proactive
+Impact: Reduced operational effort and faster issue resolution across environments.
+Accion team Contribution: Designed and implemented by Engineering"
+NPI,Nov-25,"Account : NPI
+Project name: NPI
+Month and year: 25-Dec
+Key contributors: QA & Engineering
+Category / GenAI: QA / Test Automation / Gen Ai / SDLC
+Category Description: Playwright Agents for Automated Testing
+Problem statement: Manual and semi-automated testing resulted in longer regression cycles and delayed releases.
+Value solution (Mention LLMs, Tools used): Implemented Playwright-based test agents to enable robust end-to-end automated testing across critical user journeys.
+Reactive
+/Proactive: Proactive
+Impact: Improved test coverage, reduced regression time, and increased release confidence.
+Accion team Contribution: Implemented by QA & Engineering"
+NPI,Nov-25,"Account : NPI
+Project name: NPI
+Month and year: 25-Dec
+Key contributors: Engineering Team
+Category / GenAI: DevOps process / SDLC
+Category Description: Trunk-Based Branching & Release Flow
+Problem statement: Multiple long-lived branches caused merge conflicts, delayed releases, and inconsistent deployments.
+Value solution (Mention LLMs, Tools used): Introduced trunk-based development with a streamlined release flow to promote smaller commits, faster merges, and predictable releases.
+Reactive
+/Proactive: Proactive
+Impact: Faster release cycles, reduced merge conflicts, and improved deployment stability.
+Accion team Contribution: Designed and implemented by Engineering"
+NPI,Nov-25,"Account : NPI
+Project name: NPI
+Month and year: 25-Nov
+Key contributors: DevOps Team
+Category / GenAI: Observability
+Category Description: Grafana Dashboards & Teams Alerts Integration
+Problem statement: Lack of real-time visibility and delayed incident awareness impacted response time for production issues.
+Value solution (Mention LLMs, Tools used): Implemented Grafana dashboards with automated alerts integrated into Microsoft Teams for real-time monitoring and notifications.
+Reactive
+/Proactive: Proactive
+Impact: Improved system observability, faster incident response, and reduced downtime.
+Accion team Contribution: Implemented by DevOps"
+NPI,Nov-25,"Account : NPI
+Project name: NPI
+Month and year: 25-Dec
+Key contributors: Raktim
+Category / GenAI: Operation / SDLC
+Category Description: Setting up new Jira workflow. Execution plan, operation.
+Problem statement: The old Jira board was messed up with junk work items. It was difficult to control sprint.
+Value solution (Mention LLMs, Tools used): Created fresh project boards, 2 in Kanban and 1 in Scrum. These boards produces clear Sprint goals, metrics, clean backlog.
+Reactive
+/Proactive: Proactive
+Impact: Better visibility, metrics extraction
+Accion team Contribution: End-2-End."
+Pollard Banknote,Nov-25,"Account : Pollard Banknote
+Project name: All Projects
+Month and year: Nov-25
+Key contributors: Abash, Anand (?)
+Category / GenAI: Onboarding and Rampup
+Category Description: Created a detailed onboarding Kit with KT videos and documentation covering Functional and Technical areas
+
+Quick Rampup for new joiners
+Problem statement: Onboarding of new team members was time-consuming and inefficient due to the absence of a centralized onboarding mechanism. Knowledge Transfer (KT) videos and supporting documentation were scattered across multiple locations and owned by different team members. 
+Value solution (Mention LLMs, Tools used): A comprehensive and centralized onboarding kit was created, consisting of structured KT videos and detailed documentation. 
+
+All onboarding materials were consolidated into a single, easily accessible repository and organized by modules and roles. This enabled a new joiner to ramp up with 2 weeksand reduced the dependency to have in person KT sessions. 
+
+This process also helped to guage the knowledge gained with Reverse KT sessions which gave the feedback of how a new joiner has gained and identify the gaps and close the same quickly. 
+
+Added provision to shared feedback on the session which helped to improve the KT content and keep evolving over the time 
+Reactive
+/Proactive: Proactive
+Impact: Saved valuable time for the client by avoiding the need of in person and repeated KT sessions everytime for new joiners and ad-hoc follow-ups.
+
+Established a standardized and easy-to-follow onboarding process, ensuring consistent knowledge transfer across all new joiners.
+
+Improved overall onboarding efficiency and scalability, allowing the client to onboard resources quickly with minimal disruption to ongoing project work.
+Accion team Contribution: End-to-End
+Client Appreciation (if any): This initiative was appreciated by client because they could the Onboarding Kit  sis for their new employee onboarding also
+Link to demo video of solution (if any): https://accionglobal-my.sharepoint.com/:x:/r/personal/anand_shah_accionlabs_com/_layouts/15/Doc.aspx?sourcedoc=%7Be363b492-0c35-4611-8efa-e588c6bd14a5%7D&action=edit&activeCell=%27Main%27!A37&wdinitialsession=ef667d7a-2ef9-fe0e-bcfa-1c91ca1511cf&wdrldsc=10&wdrldc=1&wdrldr=AccessTokenExpiredWarningUnauthenticated%2CRefreshin"
+Pollard Banknote,Nov-25,"Account : Pollard Banknote
+Project name: All Projects
+Month and year: Nov-25
+Key contributors: Procured intellij license for all the Devs in LMS team and Leads in the DS team
+Category / GenAI: Performance 
+Category Description: Improving performance 
+Problem statement: The development teams were using VS and Intellij community IDE tools, which impacted developer productivity, code quality, and debugging efficiency because of the community version limitation.
+Value solution (Mention LLMs, Tools used): We procured and provisioned licensed IntelliJ Enterprise IDEs for all developers in the LMS team and for leads in the DS team. The licenses version ensure standardization, and uninterrupted access to advanced development features helping in improving productivity 
+Reactive
+/Proactive: Proactive 
+Impact: Improved developer productivity due to access to advanced IDE capabilities
+
+Faster development and issue resolution, reducing turnaround time for deliverables
+
+Better code quality and consistency across teams
+
+Enhanced overall team performance and efficiency
+Accion team Contribution: End-to-End"
+Labcorp,Nov-25,"Account : Labcorp
+Project name: LIMS
+Month and year: Jan 2026
+Key contributors: Jugal
+Category / GenAI: BackEnd Services
+Category Description: Seperation of Order Ingestion Service from monolithic App
+Leading the FHIR Resource mapping for Analytics Team
+Problem statement: Connect-platform had multiple independent modules into single monolithic App
+Created Required FHIR resource mapping in a meaning full manner. So that Analytics team fetch the data and create tables accordingly
+Value solution (Mention LLMs, Tools used): Separated Order-Injestion Service from Connect-platform App which has multiple modules into a single Application
+Reactive
+/Proactive: Proactive 
+Impact: Operational efficiency 
+Accion team Contribution: Problem is reported by Client, but solution is proposed by Accion team"
+Labcorp,Nov-25,"Account : Labcorp
+Project name: LIMS
+Month and year: Jan 2026
+Key contributors: Pranit
+Category / GenAI: BackEnd Services
+Category Description: Patch API request build to ease the use of patch api for FHIR resource updation
+Problem statement: Researching and using Jackson library to quickly build the Patch request for using Patch API for updation of a resource
+Value solution (Mention LLMs, Tools used): Researched Jackson api and used to build the patch request for calling the patch api which is simple to understand and quick to build the tricky patch request to update the resource.
+Reactive
+/Proactive: Proactive 
+Impact: Operational efficiency 
+Accion team Contribution: Problem is reported by Client, but solution is proposed by Accion team"
+Labcorp,Nov-25,"Account : Labcorp
+Project name: LIMS
+Month and year: Jan 2026
+Key contributors: Ashish Kumar Singh
+Category / GenAI: BackEnd Services
+Category Description: Implemented multiple flavours to order ingestion service - cancel and update. 
+Implemented end-to-end feature for client account ingestion from LCLS wit integration to S3, SQS
+Resolved quality issues proactively. Improved coverage on loader and order ingestion service. 
+Delivered 2 demo sessions for 2 stories and both got no questions and were appreciated.
+Value solution (Mention LLMs, Tools used): Claude Code, SonarQube, S3, SQS, Event notifications, dlq
+Reactive
+/Proactive: Proactive and Reactive
+Impact: Moved closer to achieving target coverage percent of 100 percent and 0 critical and major bugs.
+led the implementation and design for ref loader service to load accounts from a different system than the existing system.  An account is one of the core component of the connect system
+Accion team Contribution: Problem is reported by Client, but solution is proposed by Accion team
+Client Appreciation (if any): Received only verbally in standup."
+Labcorp,Nov-25,"Account : Labcorp
+Project name: Cohort Builder
+Month and year: Jan 2026
+Key contributors: Priyanka Chawla, Vijaya Prathap
+Category / GenAI: UI and Automation
+Category Description: Implementing UI automation and API automation along with Manual implemention to reduce the effort for regression to execute once app is completely built
+Problem statement: As its new App, we are doing the automation from scratch to cover all the flows via UI Automation and API Automation to make sure execution runs faster 
+Value solution (Mention LLMs, Tools used): Using Postman,Swagger, Intellij and Git 
+Impact: Easy to Execute and validate the major changes in case of code debugging
+Accion team Contribution: Team is putting full effort to maximum coverage via automatiing the flows. 
+Client Appreciation (if any): Received verbally in standup and Sprint Demo's."
+Labcorp,Nov-25,"Account : Labcorp
+Project name: Phoenix-BOE-IDP
+Month and year: Jan 2026
+Key contributors: Naveen Abbigeri
+Category / GenAI: Re-engineering
+Category Description: Implemented Spring boot reactive framework to build serveral micro service applications from Monolithic Spring application which also had Batch jobs running using Spring Integration Flow
+Problem statement: Boe-Batch application had several Integration flows (Batch jobs) where each integration flow used JMS queues, channels and listerners for communication, but all the integration flows where in a single application with also  several rest api's, which made it tight coupled, hence these Integration flows had to be seprated into different microservices
+Value solution (Mention LLMs, Tools used): Used Spring WebFlux to build new microservice applications which had Integration flows (Batch Jobs) alsong with Async rest api's 
+Reactive
+/Proactive: Proactive
+Impact: Now easy to build, deploy, debug individual microservice applications without impacting other service
+Accion team Contribution: 70% done by Accion team"
+Labcorp,Nov-25,"Account : Labcorp
+Project name: LIMS
+Month and year: Dec 2026
+Key contributors: Jayottam Jadhav
+Category / GenAI: GenAI - SDLC - Code gen
+Category Description: Zero manual coding. Complete feature development using AI first approach.
+
+(Explain what feature, what components it involved, how we did the testing etc)
+Problem statement: Utilize AI tools to build complete feature without doing any manual coding, including test coverage. (Feature developed - Problem management)
+Value solution (Mention LLMs, Tools used): Spec-kit, Claude code
+Reactive
+/Proactive: Reactive (Was initiated by client)
+Impact: Entire feature on backend side was developed by single developer in 5 Days which would take 2 developers total 15 days. Overall coding efficiency increased by 60% plus.
+Accion team Contribution: Enitrely done by accion team
+Client Appreciation (if any): Verbal in demo and standup"
+Hivemindd,Nov-25,"Account : Hivemindd
+Project name: Hivemindd
+Month and year: Jul-2025
+Key contributors: Konni Vidya Sagar, Kamal Verma
+Category / GenAI: AI / User Experience
+Category Description: AI-Powered Resume Parsing & Content Personalization
+Problem statement: Manual entry of resume data is time-consuming and prone to human error, creating friction during the user onboarding process and delaying content personalization.
+Value solution (Mention LLMs, Tools used): The AI Resume Parser automatically extracts and pre-fills user information from any resume format. The system then uses this data to capture user interests and provide personalized content recommendations.
+Reactive
+/Proactive: Proactive
+Impact: Streamlines the user onboarding process, saving users significant time and effort. It also enhances user engagement by immediately providing relevant and personalized content.
+Accion team Contribution: The Accion dev team took full ownership of the development and successful integration of the AI Resume Parser.
+Client Appreciation (if any): Clients have appreciated how it has come up."
+Hivemindd,Nov-25,"Account : Hivemindd
+Project name: Hivemindd
+Month and year: Jul-2025
+Key contributors: Alisha, Sohan Khatri
+Category / GenAI: AI / Machine Learning
+Category Description: AI-Powered Skilltags & Content Personalization Engine
+Problem statement: Manually profiling user interests is a burden on the user, leading to incomplete or inaccurate data that results in irrelevant content and poor engagement.
+Value solution (Mention LLMs, Tools used): The Skilltags System automatically generates and assigns dynamic skill-based metadata to users, content, and interactions. This powers a highly sophisticated AI engine that provides personalized feeds and contextual matching.
+Reactive
+/Proactive: Proactive
+Impact: Automates user interest profiling, ensuring a seamless user experience. It guarantees highly relevant content delivery, enhances user engagement, and facilitates contextual matching between users, groups, and content.
+Accion team Contribution: The Accion team was responsible for the full-stack development of this advanced AI engine, which acts as a core logic for content personalization and relevance across the platform.
+Client Appreciation (if any): Customers see great value in this feature and consider it one of the most advanced AI engines in the system."
+Everbridge - Q2,Nov-25,"Account : Everbridge - Q2
+Project name: Everbridge - Q2, Q3, Q4
+Month and year: Q2 2025
+Key contributors: REI
+Category / GenAI: Product & Platform Enhancements
+Category Description: Feature Development, Optimization & System Modernization
+
+(Pls explain the problem solution and tools, clearly without too much product specifc jargons) 
+
+Venu: I assume you have not looked at the details provided in the columns I, K, L). If yes, and you want the details to be enhanaced then I can do it. 
+Problem statement: 
+Performance
+The current map implementation faces out-of-memory issues when rendering large and complex polygons, impacting system stability and user experience.
+
+System Modernization  Monitoring
+Existing monitoring setup has high recurring licensing costs, limited flexibility in dashboard customization, and misalignment with internal engineering standards.
+
+System Modernization  Deployment
+Spinnaker operates as a heavy microservices-based deployment platform.
+Requires dedicated DevOps ownership.
+Upgrade, scaling, and maintenance efforts are complex and time-consuming.
+
+Operational Excellence
+Need to strengthen business continuity and application availability to ensure minimal downtime during regional or infrastructure failures.
+Value solution (Mention LLMs, Tools used): Performance & Optimization
+Optimized polygon processing logic using GIS tools and libraries.
+Improved memory handling and data filtering for large geographic datasets.
+Leveraged Enterprise ChatGPT and GitHub Copilot to analyze bottlenecks and accelerate solution design.
+
+System Modernization  Monitoring
+Migrated monitoring and alerting from Datadog to Grafana to reduce licensing costs.
+Enabled flexible, customizable dashboards aligned with internal engineering standards.
+Used Enterprise ChatGPT and Copilot to support migration planning and validation.
+
+System Modernization  Deployment
+Migrated deployment workflows from Spinnaker to Argo CD.
+Adopted a GitOps-based approach to simplify deployments and reduce operational overhead.
+Used Enterprise ChatGPT and Copilot during migration for configuration analysis, pipeline conversion, and validation.
+
+Operational Excellence  Disaster Recovery
+Set up new infrastructure in an alternate region.
+Implemented regular monthly failover testing to validate disaster recovery readiness.
+Ensured high availability and improved system resilience.
+Impact: Improved application performance and stability for large map data.
+
+Eliminated memory-related failures during high-volume processing.
+
+Reduced recurring monitoring and infrastructure costs.
+
+Simplified deployment processes and reduced dependency on specialized DevOps resources.
+
+Improved system reliability, availability, and disaster recovery confidence.
+
+Strengthened customer trust through improved resilience and uptime.
+Accion team Contribution: Released with framework upgrades, contributed to multiple feature enhancements, optimizations, monitoring migration, disaster recovery preparedness, and customer-focused fixes across releases.
+Client Appreciation (if any): "
+HID,Nov-25,"Account : HID
+Project name: HID
+Month and year: Q4
+Key contributors: HID Team
+Category / GenAI: Product & Platform Enhancements
+Category Description: Feature Development, Optimization & System Modernization
+
+(marked red seem trivial tasks; pls explain the QR code and WCAG fixes in detail - what was the problem, solution approach, how it helped, WCAG, how many vulnerabilities, how did we fix, how long it took)
+Problem statement: Problem Statement: Kiosk Navigation System  SMS-Based PDF Delivery
+Context:
+The kiosk system allows users to search for navigation from Point A to Point B.
+Users can optionally enter their phone number to receive the navigation directions as a PDF via SMS.
+
+Issue:
+Compliance restrictions prevent SMS-based PDF delivery.
+
+Impact:
+Potential disruption of the PDF delivery service.
+Reduced convenience and user experience for kiosk users.
+Value solution (Mention LLMs, Tools used): Value Solution: QR-CodeBased Navigation PDF Delivery
+Objective: Replace SMS-based PDF delivery with a compliant and user-friendly alternative.
+Solution Implemented:
+QR-Code Delivery:
+Users searching for navigation from Point A to Point B can now scan a QR code to access the navigation PDF directly on their mobile devices.
+
+Tools & Integration:
+QRCode.min.js: Generates QR codes containing navigation PDF links.
+Integration: Seamlessly integrated with the existing navigation system.
+Development Support: ChatGPT
+Reactive
+/Proactive: Proactive
+Impact: Ensured compliance adherence while maintaining uninterrupted service delivery
+Accion team Contribution: Designed and implemented an alternative compliant solution with minimal customer impact"
+,Nov-25,
+HID,Nov-25,"Account : HID
+Project name: HID
+Month and year: Q4
+Key contributors: HID Team
+Problem statement: Accessibility Gaps Affecting WCAG Compliance (Mobile Platforms  Cedars)
+Issue: Accessibility gaps impacting compliance with WCAG standards on mobile platforms.
+Affected Areas:
+TalkBack support
+Focus management
+Buttons
+Keyboard navigation
+Select elements
+Search functionality
+Font readability
+Value solution (Mention LLMs, Tools used): Implement WCAG compliance fixes across the application to address identified accessibility gaps.
+Solution Implemented:
+Accessibility Fixes:
+WCAG compliance issues identified and remediated across the application.
+Tools & Automation:
+LLMs: OpenAI GPT / GPT  for generating code suggestions, ARIA labels, and semantic markup.
+Accessibility Validation: Appium + Axe / Google Accessibility Scanner integration  for automated testing and validation.
+With are able to close this activity in 1 sprint. 
+Reactive
+/Proactive: Proactive
+Impact: Achieved accessibility compliance and improved usability for all users
+Accion team Contribution: Led accessibility gap analysis, implemented fixes, and validated compliance requirements"
+HID,Nov-25,"Account : HID
+Project name: HID
+Month and year: Q4
+Key contributors: HID Team
+Problem statement: VG Platform Upgrade
+Context
+The VG platform is currently running on version 1.7.3, which is outdated.
+New business and system requirements demand enhanced functionality and modern integrations that are not supported by the existing version.
+
+Issue
+The current VG version lacks support for new features and modern integrations.
+Outdated dependencies and limited framework support restrict further enhancements and scalability.
+
+Impact
+Inability to implement new functionality, limiting business growth and innovation.
+Increased technical debt and higher maintenance effort.
+Potential risks related to compatibility issues and long-term support.
+Value solution (Mention LLMs, Tools used): Value Solution: VG Platform Upgrade to Version 1.18.5
+Objective
+Upgrade VG from version 1.7.3 to 1.18.5 to:
+Enable support for new functionality.
+Ensure platform stability and long-term maintainability.
+
+Solution Implemented
+1. Version Upgrade
+Successfully upgraded VG from 1.7.3 ? 1.18.5.
+Addressed deprecated components and compatibility gaps.
+
+2. Tools & Integration
+VG Framework v1.18.5: Provides support for enhanced features and performance improvements.
+Integration: Seamlessly aligned with existing system workflows.
+Development Support: Leveraged LLMs (ChatGPT) and AntiGravity for development assistance and troubleshooting.
+Reactive
+/Proactive: Proactive
+Impact: Improved performance, stability, and access to latest platform capabilities
+Accion team Contribution: Planned and executed upgrade, handled compatibility checks, and ensured smooth rollout"
+Everbridge - Q4,Nov-25,"Account : Everbridge - Q4
+Project name: Everbridge - Q4
+Month and year: Q4
+Key contributors: VCC
+Category / GenAI: Product & Platform Enhancements
+Category Description: Feature Development, Optimization & System Modernization
+Developed automated test coverage for complex map-based scenarios that were previously excluded from automation due to technical limitations. The solution enabled validation of critical user workflows such as alert acknowledgment, clustered and non-clustered alerts, and dashboard interactions
+
+(pls spilt and explain in some more details - looks interesting) fill some details in this column for all
+Problem statement: Map Workflow Automation Challenges:
+Canvas-based Bing Maps blocks standard automation, limiting E2E test coverage.
+Key map elements (pins, overlays, dynamic markers) are inaccessible to automation.
+Lack of identifiable selectors makes automation unreliable.
+Value solution (Mention LLMs, Tools used): Approach:
+Implemented a stable automation strategy using system-driven workflows instead of relying on direct map DOM access.
+Leveraged alert feedbased automation, where selecting alerts automatically triggers map behavior through existing application logic.
+Used coordinate-based canvas interactions to handle map components that are not DOM-accessible.
+Validated end-to-end workflows based on application behavior and outcomes, ensuring reliable test coverage.
+
+Tools Used:
+Playwright
+Playwright MCP Server
+TypeScript
+Reactive
+/Proactive: Proactive
+Impact: Enabled stable, full end-to-end automation for map scenarios with zero flakiness
+Accion team Contribution: Designed and delivered an innovative automation strategy aligned with real user behavior"
+RLDatix,Nov-25,"Account : RLDatix
+Project name: RLDatix
+Month and year: Q3
+Key contributors: Santhosh Murthy
+Sandeep Gupta
+Category / GenAI: Patient Safety & Incident Management
+Category Description: Incident investigation and contributory factor analysis within healthcare (NHS-focused)
+Problem statement: Incident investigations are time-consuming, resource-intensive, and dependent on specialized reviewers. As a result, contributory factors are often missed, reinforcing a blame culture and limiting system-level learning.
+Value solution (Mention LLMs, Tools used): AI-assisted contributory factor analysis using the SEIPS framework, embedded as a new SEIPS Analysis feature in DatixWeb/DCIQ, enabling structured, consistent identification of contributory factors.
+Reactive
+/Proactive: Proactive
+Impact: Faster, more complete identification of systemic risks; improved quality and consistency of investigations; earlier interventions to prevent repeat incidents.
+Accion team Contribution: Designed and implemented a lightweight AI prototype to analyze incident descriptions and auto-populate SEIPS contributory factors.
+Client Appreciation (if any): The solution received excellent appreciation from the CTO, Engineering Director, and Business stakeholders, and has been approved for implementation in their system"
+RLDatix,Nov-25,"Account : RLDatix
+Project name: RLDatix
+Month and year: Q4
+Key contributors: Santhosh Murthy
+Anil Kumar TR
+Category / GenAI: Database Unification & Migration
+Category Description: Consolidation of multiple database platforms into a unified data architecture
+Migration and unification of heterogeneous database technologies
+Problem statement: The system relied on two separate databases (Carlton on MySQL and Capture on MSSQL), leading to fragmented schemas, higher maintenance overhead, and inconsistent data handling across applications.
+Dual-database setup increased operational cost, introduced data inconsistency risks, and complicated reporting and analytics.
+Value solution (Mention LLMs, Tools used): Designed a unified database architecture by analyzing and aligning schemas across both systems, enabling consolidation onto a single MySQL-based platform.
+Reactive
+/Proactive: Proactive
+Impact: Reduced architectural complexity, improved maintainability, and enabled a standardized data foundation across applications.
+Lowered infrastructure and licensing costs; reduced data inconsistency risk; simplified database operations.
+Accion team Contribution: Led schema analysis, identified fragmentation, and defined the target unified database approach.
+Client Appreciation (if any): The solution was highly appreciated by the RLDatix CTO and Engineering Director and is planned for implementation as it optimizes database usage while being cost-effective."
+Extreme Reach (XR),Nov-25,"Account : Extreme Reach (XR)
+Project name: Extreme Reach (XR)
+Month and year: Q3 
+Key contributors: Sampad Rout and QA team
+Category / GenAI: Test Automation Tracking
+Category Description: Data Tagging and Dashboard Creation
+Problem statement: The existing automation test suite was not connected to Jira tickets making their classification and tagging very hard to track. The understanding of coverage numbers for each team was mostly an estimate and never an accurate number due to lack of this tagging. 
+Value solution (Mention LLMs, Tools used): Our team led by Sampad decided to handle this by manually going through each test then tagging them to the right test ticket in Jira.
+Reactive
+/Proactive: Proactive 
+Impact: Increased visibility into automation test coverage by the management team which led to focus on specific team where coverage was lacking. A dashboard was created for live tracking. 
+Accion team Contribution: Led problem idenfication, identifying solution and implementing solution independently.
+Client Appreciation (if any): Client appreciated the visibility the dashboard provided."
+Extreme Reach (XR),Nov-25,"Account : Extreme Reach (XR)
+Project name: Extreme Reach (XR)
+Month and year: Q1 2025
+Key contributors: Akash Bharadwaj, Arun Yadav
+Category / GenAI: Improving Application Latency
+Category Description: Improving User Experience
+Problem statement: The application is slow at many pages and features. This leads to bad experience not only for the user of application, but also for engineers and testers during development and testing.
+Value solution (Mention LLMs, Tools used): Sytematically track and create tickets for each identified slowness in terms of API or frond end component. This will help in prioritising and solving for application latency issues.
+Reactive
+/Proactive: Proactive 
+Impact: This will increased user satisfaction along with increased speed and delight of development and testing.
+Accion team Contribution: Engineers are leading this effort to track and identify these slow parts of the application. 
+Client Appreciation (if any): Still in process. 1 specific improvement in a feature was appreciated."
+Dell,Nov-25,"Account : Dell
+Project name: Dell
+Month and year: Q1 2026
+Key contributors: AkbarShaik
+Zahid Warsi
+Gangapalli Sreekanth
+Vimalraj Jone
+Shweta Saxena
+Dinesh T
+Category / GenAI: Test Automation
+Category Description: Test Automation using AI
+Problem statement: Existing test automation approaches for Dell applications rely heavily on manual effort and rigid scripts, resulting in slower release cycles, higher testing costs, and limited scalability. As application complexity grows, maintaining test coverage and quality becomes increasingly challenging, necessitating an AI-driven automation solution to improve efficiency, speed, and reliability.
+Value solution (Mention LLMs, Tools used): Implementing AI-driven test automation for six Dell applications using Windsurf, LLaMA, and Playwright
+Reactive
+/Proactive: Proactive 
+Impact: Implementing AI-driven test automation across 6 Dell applications accelerated testing cycles, improved test coverage, and significantly reduced manual effort, excelling the speed of test automation.
+The solution enhanced application quality, lowered maintenance costs, and established a scalable, future-ready QA framework.
+Accion team Contribution: The team analyzed and identified all required test cases, set up the MCP Server, and began generating automated test scripts using Windsurf, LLaMA, and Playwright."
+BLDR,Nov-25,"Account : BLDR
+Project name: BLDR
+Month and year: Q1 2026
+Key contributors: Buduru Narasimha
+Bharath V
+Category / GenAI: AI Test Automation
+Category Description: Data Evaluation and pixel based comparison of system generated images
+Problem statement: Need to evaluate the quality of digitizated data of the construction blueprints by comparing the ground truth source document with the system generated blueprint document.
+Value solution (Mention LLMs, Tools used): Implemented JSON and Pixel based comparison of the data used in plotting the blueprint and images generated. We have used python scripts, windsurf and playwright platform to execute this automation successfully.
+Reactive
+/Proactive: Proactive 
+Impact: This implementation has brought down the manual QA evaluation time and has helped developers focus on the model improvements at an early stage
+Accion team Contribution: Team had identified the problem and have come up with this implementation. This automation had contributed to more than 70% coverage for this usecase.
+Client Appreciation (if any): Client is very much interested and are in line for implementing this automation flow anywhere in their pipeline of various integration applications."
+DEF,Nov-25,"Account : DEF
+Project name: DEF- MyAppConnect
+Month and year: Q4 2025
+Key contributors: Divya, Sankalp and QA COE team
+Category / GenAI: GenAI-enabled Test Automation Framework
+Category Description: A scalable QA automation framework built with TypeScript and Playwright that leverages Generative AI for intelligent test management and optimization.
+Problem statement: Traditional test automation frameworks suffer from:
+High manual intervention and maintenance overhead
+Limited reusability across programs and regions
+Reactive defect detection late in the lifecycle
+Lack of actionable insights from test executions
+Inconsistent accessibility compliance validation
+These challenges impact delivery timelines, cost efficiency, and scalability across utility providers.
+Value solution (Mention LLMs, Tools used): ""Solution Overview:
+TypeScript + Playwright (MCP) for fast, reliable cross-browser automation
+Unified POM architecture enabling high reusability and low maintenance
+GenAI-powered test management using LLMs for:
+Test case generation and optimization
+Failure analysis and intelligent RCA suggestions
+AI-generated execution insights and trends
+CI/CD pipeline integration (Azure DevOps/GitHub Actions) with AI-driven reporting
+LLMs & Tools:
+Large Language Models (LLMs) for test intelligence and analytics
+Playwright MCP
+CI/CD tools (Azure DevOps / GitHub)
+Accessibility testing utilities""
+Reactive
+/Proactive: Proactive
+Impact: 
+Reduced manual testing effort and execution time
+Improved automation coverage and defect detection efficiency
+Faster, more predictable releases across utility providers
+Enhanced compliance and customer experience
+Scalable framework reusable across multiple states and programs
+Accion team Contribution: Accion led the overall automation framework design and end-to-end implementation, ensuring scalability and standardization.
+The team contributed by aligning test assets, adopting the framework, and supporting effective execution and maintenance."
+Confluence,Nov-25,"Account : Confluence
+Project name: REX
+Month and year: Q4 2025
+Key contributors: Pavan & Dinesh
+Category / GenAI: Performance and Cost Optimization
+Category Description: Cost Optimization and Performance improvement
+Problem statement: Rex faced high API usage costs with Azure DocIntel, leading to excessive monthly expenses exceeding sustainable levels.
+Value solution (Mention LLMs, Tools used): Implemented a caching layer to store frequently accessed document intelligence results, reducing redundant API calls
+Reactive
+/Proactive: Reactive
+Impact: Achieved >$10,000/month cost savings while maintaining performance, demonstrating scalable cost optimization for AI document processing workloads
+Accion team Contribution: Identified excessive API calls as the root inefficiency in document processing workflows.
+Designed and deployed the caching mechanism to reuse results for repeated queries.
+Monitored and validated post-implementation savings, ensuring sustained impact."
+Confluence,Nov-25,"Account : Confluence
+Project name: Confluence
+Month and year: Q3 2025
+Key contributors: Nikunj 
+Category / GenAI: Data Quality & Validation Tools
+Category Description: data management and analytics, specifically precision comparison and discrepancy detectionaddressing data integrity challenges in testing/QA workflows
+Problem statement: Existing dataset comparison processes lacked precision control and generated incomplete discrepancy reports, leading to undetected data inconsistencies and QA defects during validation.
+Value solution (Mention LLMs, Tools used): Nikunj developed a new application enabling comparisons at any decimal precision level with comprehensive discrepancy reporting capabilities.
+Reactive
+/Proactive: Reactive
+Impact: Achieved zero QA defects through precise detection and documentation of all data variances, eliminating manual reconciliation errors and ensuring data integrity.
+Accion team Contribution: Eliminated manual comparison errors, accelerated data validation processes, and achieved perfect QA qualitystreamlining operations without rework.
+Client Appreciation (if any): I am Nikunj's team lead, and I wanted to take a moment to share my appreciation for Nik's excellent work. Recently, Nik built a new application for our product suite, and I'm thrilled to report that QA found no bugs with the application. This is a testament to Nik's diligence and attention to detail. Nik did a fantastic job working independently and produced high-quality work. It's clear that Nik is a professional who takes pride in their craft, and I wanted to make sure you are aware of their recent contributions to the team."
+,Nov-25,

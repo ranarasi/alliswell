@@ -130,6 +130,16 @@ export default function Navbar({ mode = 'delivery' }: NavbarProps) {
                   >
                     Manage Projects
                   </Link>
+                  <Link
+                    href="/admin/values"
+                    className={`transition-colors font-medium ${
+                      pathname === '/admin/values'
+                        ? 'text-primary border-b-2 border-primary'
+                        : 'text-secondary hover:text-text'
+                    }`}
+                  >
+                    Values
+                  </Link>
                 </>
               )}
             </div>
@@ -264,6 +274,17 @@ export default function Navbar({ mode = 'delivery' }: NavbarProps) {
                   }`}
                 >
                   Manage Projects
+                </Link>
+                <Link
+                  href="/admin/values"
+                  onClick={closeMobileMenu}
+                  className={`block px-3 py-2 rounded-md text-base font-medium ${
+                    pathname === '/admin/values'
+                      ? 'bg-primary text-white'
+                      : 'text-gray-700 hover:bg-gray-100'
+                  }`}
+                >
+                  Values
                 </Link>
               </>
             )}

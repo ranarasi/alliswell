@@ -619,7 +619,7 @@ export default function ManageProjectsPage() {
                               </span>
                             </div>
                             <div
-                              className="prose max-w-none"
+                              className="text-gray-700 whitespace-pre-wrap"
                               dangerouslySetInnerHTML={{ __html: value.content }}
                             />
                           </div>
