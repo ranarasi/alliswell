@@ -8,8 +8,11 @@
     "build": "tsc",
     "start": "node dist/index.js",
     "db:migrate": "ts-node src/database/migrate.ts",
+    "db:migrate-all": "ts-node src/database/runAllMigrations.ts",
     "db:seed": "ts-node src/database/seedUsers.ts",
-    "db:seed-real": "ts-node src/database/seedRealData.ts"
+    "db:seed-real": "ts-node src/database/seedRealData.ts",
+    "db:reset": "ts-node src/database/resetDatabase.ts",
+    "db:deploy-staging": "ts-node src/database/deployStaging.ts"
   },
   "keywords": [],
   "author": "",
